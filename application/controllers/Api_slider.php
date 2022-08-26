@@ -40,7 +40,7 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $slider->enlace,
                     'target' => $slider->target,
                     'is_active' => $slider->is_active,
-					'img' => base_url('media/images/uploads/sliders/'.$slider->img)
+					'img' => base_url('media/uploads/sliders/'.$slider->img)
 				);
 			}
 		}
@@ -70,7 +70,7 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $slider->enlace,
                     'target' => $slider->target,
                     'is_active' => $slider->is_active,
-					'img' => base_url('media/images/uploads/sliders/'.$slider->img)
+					'img' => base_url('media/uploads/sliders/'.$slider->img)
 				);
 			}
 		}
@@ -96,7 +96,7 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $slider->enlace,
                     'target' => $slider->target,
                     'is_active' => $slider->is_active,
-					'img' => base_url('media/images/uploads/sliders/'.$slider->img)
+					'img' => base_url('media/uploads/sliders/'.$slider->img)
 		);
 		
 		$this->output
@@ -123,7 +123,7 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $slider->enlace,
                     'target' => $slider->target,
                     'is_active' => $slider->is_active,
-					'img' => base_url('media/images/uploads/sliders/'.$slider->img)
+					'img' => base_url('media/uploads/sliders/'.$slider->img)
 				);
 			}
 		}
@@ -158,7 +158,7 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $slider->enlace,
                     'target' => $slider->target,
                     'is_active' => $slider->is_active,
-					'img' => base_url('media/images/uploads/sliders/'.$slider->img)
+					'img' => base_url('media/uploads/sliders/'.$slider->img)
 				);
 			}
 
@@ -189,7 +189,7 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $slider->enlace,
                     'target' => $slider->target,
                     'is_active' => $slider->is_active,
-					'img' => base_url('media/images/uploads/sliders/'.$slider->img)
+					'img' => base_url('media/uploads/sliders/'.$slider->img)
 			);
 			
 
@@ -209,6 +209,7 @@ class Api_Slider extends CI_Controller {
 		if($token) {
 
 			$title = $this->input->post('title');
+			$user_id = $this->input->post('user_id');
 			$description = $this->input->post('description');
 			$is_activeText = $this->input->post('is_activeText');
 			$is_activeBot = $this->input->post('is_activeBot');
@@ -223,7 +224,7 @@ class Api_Slider extends CI_Controller {
 
 			if ($_FILES && $_FILES['img']['name']) {
 
-				$config['upload_path']          = './media/images/uploads/sliders/';
+				$config['upload_path']          = './media/uploads/sliders/';
 	            $config['allowed_types']        = 'gif|jpg|png|jpeg';
 	            $config['max_size']             = 500;
 
@@ -255,6 +256,7 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $enlace,
 					'target' => $target,
 					'is_active' => $is_active,
+					'created_at' => date('Y-m-d H:i:s', time())
 				);
 
 				$id = $this->api_model_slider->insertSlider($sliderData);
@@ -283,6 +285,7 @@ class Api_Slider extends CI_Controller {
 			$filename = $slider->img;
 
 			$title = $this->input->post('title');
+			$user_id = $this->input->post('user_id');
 			$description = $this->input->post('description');
 			$is_activeText = $this->input->post('is_activeText');
 			$is_activeBot = $this->input->post('is_activeBot');
@@ -295,7 +298,7 @@ class Api_Slider extends CI_Controller {
 
 			if ($_FILES && $_FILES['img']['name']) {
 
-				$config['upload_path']          = './media/images/uploads/sliders/';
+				$config['upload_path']          = './media/uploads/sliders/';
 	            $config['allowed_types']        = 'gif|jpg|png|jpeg';
 	            $config['max_size']             = 500;
 
@@ -311,9 +314,9 @@ class Api_Slider extends CI_Controller {
 	            }
 	            else {
 	   
-					if($slider->img && file_exists(FCPATH.'media/images/uploads/sliders/'.$slider->img))
+					if($slider->img && file_exists(FCPATH.'media/uploads/sliders/'.$slider->img))
 					{
-						unlink(FCPATH.'media/images/uploads/sliders/'.$slider->img);
+						unlink(FCPATH.'media/uploads/sliders/'.$slider->img);
 					}
 
 	            	$uploadData = $this->upload->data();
@@ -333,6 +336,7 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $enlace,
 					'target' => $target,
 					'is_active' => $is_active,
+					'updated_at' => date('Y-m-d H:i:s', time())
 				);
 
 				$this->api_model_slider->updateSlider($id, $sliderData);
@@ -359,9 +363,9 @@ class Api_Slider extends CI_Controller {
 
 			$slider = $this->api_model_slider->get_admin_slider($id);
 
-			if($slider->img && file_exists(FCPATH.'media/images/uploads/sliders/'.$slider->img))
+			if($slider->img && file_exists(FCPATH.'./media/uploads/sliders/'.$slider->img))
 			{
-				unlink(FCPATH.'media/images/uploads/sliders/'.$slider->img);
+				unlink(FCPATH.'./media/uploads/sliders/'.$slider->img);
 			}
 
 			$this->api_model_slider->deleteSlider($id);

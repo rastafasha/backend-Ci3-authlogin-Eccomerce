@@ -3,10 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Api_model_gallery extends CI_Model 
 {
-	public function get_galerias($featured, $recentpost)
+	
+
+	public function get_galleries($featured, $recentpost)
 	{
 		$this->db->select('galeria.*');
 		$this->db->from('galerias galeria');
+		$this->db->join('categories cat', 'cat.id=galeria.category_id', 'left');
 
 		if($recentpost){
 			$this->db->order_by('galeria.created_at', 'desc');
@@ -16,7 +19,7 @@ class Api_model_gallery extends CI_Model
 		return $query->result();
 	}
 
-	public function get_galeria($id)
+	public function get_gallery($id)
 	{
 		$this->db->select('galeria.*');
 		$this->db->from('galerias galeria');
@@ -27,17 +30,16 @@ class Api_model_gallery extends CI_Model
 
 
 
-	public function get_admin_galerias()
+	public function get_admin_gallerys()
 	{
-		$this->db->select('galeria.*, u.first_name, u.last_name');
+		$this->db->select('galeria.*');
 		$this->db->from('galerias galeria');
-		$this->db->join('users u', 'u.id=galeria.user_id');
 		$this->db->order_by('galeria.created_at', 'desc');
 		$query = $this->db->get();
 		return $query->result();
 	}
 
-	public function get_admin_galeria($id)
+	public function get_admin_gallery($id)
 	{
 		$this->db->select('galeria.*, u.first_name, u.last_name');
 		$this->db->from('galerias galeria');

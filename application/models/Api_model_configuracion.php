@@ -3,16 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Api_model_configuracion extends CI_Model 
 {
-	public function get_configuracions($featured, $recentpost)
+	public function get_configuracions()
 	{
-		$this->db->select('configuracion.*, u.first_name, u.last_name');
+		$this->db->select('configuracion.*');
 		$this->db->from('configuracions configuracion');
-		$this->db->join('users u', 'u.id=configuracion.user_id');
+		$this->db->order_by('configuracion.created_at', 'desc');
 
-		if($recentpost){
-			$this->db->order_by('configuracion.created_at', 'desc');
-			$this->db->limit($recentpost);
-		}
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -31,9 +27,8 @@ class Api_model_configuracion extends CI_Model
 
 	public function get_admin_configuracions()
 	{
-		$this->db->select('configuracion.*, u.first_name, u.last_name');
+		$this->db->select('configuracion.*');
 		$this->db->from('configuracions configuracion');
-		$this->db->join('users u', 'u.id=configuracion.user_id');
 		$this->db->order_by('configuracion.created_at', 'desc');
 		$query = $this->db->get();
 		return $query->result();

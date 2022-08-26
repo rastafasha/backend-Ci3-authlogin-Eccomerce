@@ -31,7 +31,7 @@ class Api_model_promocion extends CI_Model
 
 	public function get_admin_promocions()
 	{
-		$this->db->select('promocion.*, u.first_name, u.last_name');
+		$this->db->select('promocion.*');
 		$this->db->from('promocions promocion');
 		$this->db->join('users u', 'u.id=promocion.user_id');
 		$this->db->order_by('promocion.created_at', 'desc');
@@ -41,7 +41,7 @@ class Api_model_promocion extends CI_Model
 
 	public function get_admin_promocion($id)
 	{
-		$this->db->select('promocion.*, u.first_name, u.last_name');
+		$this->db->select('promocion.*');
 		$this->db->from('promocions promocion');
 		$this->db->join('users u', 'u.id=promocion.user_id');
 		$this->db->where('promocion.id', $id);

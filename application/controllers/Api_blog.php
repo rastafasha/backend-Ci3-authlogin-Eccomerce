@@ -6,12 +6,12 @@ class Api_Blog extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('AuthModel');
-		$this->load->helper('verifyAuthToken');
 		$this->load->model('api_model_blog');
 		$this->load->helper('url');
 		$this->load->helper('text');
-
+		
+		$this->load->model('AuthModel');
+		$this->load->helper('verifyAuthToken');
 		header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json");
         header("Access-Control-Request-Methods: GET, PUT, POST, DELETE, OPTIONS");
@@ -28,8 +28,8 @@ class Api_Blog extends CI_Controller {
 		if(!empty($blogs)){
 			foreach($blogs as $blog){
 
-				$short_desc = strip_tags(character_limiter($blog->description, 70));
-				$author = $blog->first_name.' '.$blog->last_name;
+				// $short_desc = strip_tags(character_limiter($blog->description, 70));
+				// $author = $blog->first_name.' '.$blog->last_name;
 
 				$posts[] = array(
 					'id' => $blog->id,
@@ -37,8 +37,8 @@ class Api_Blog extends CI_Controller {
 					'category_id' => $blog->category_id,
 					'description' => $blog->description,
 					'video_review' => $blog->video_review,
-					'short_desc' => html_entity_decode($short_desc),
-					'author' => $author,
+					// 'short_desc' => html_entity_decode($short_desc),
+					// 'author' => $author,
 					'img' => base_url('media/uploads/blogs/'.$blog->img),
 					'created_at' => $blog->created_at
 				);
@@ -86,8 +86,8 @@ class Api_Blog extends CI_Controller {
 		
 		$blog = $this->api_model_blog->get_blog($id);
 
-		$short_desc = strip_tags(character_limiter($blog->description, 70));
-		$author = $blog->first_name.' '.$blog->last_name;
+		// $short_desc = strip_tags(character_limiter($blog->description, 70));
+		// $author = $blog->first_name.' '.$blog->last_name;
 
 		$post = array(
 			'id' => $blog->id,
@@ -95,8 +95,8 @@ class Api_Blog extends CI_Controller {
 					'category_id' => $blog->category_id,
 					'description' => $blog->description,
 					'video_review' => $blog->video_review,
-					'short_desc' => html_entity_decode($short_desc),
-					'author' => $author,
+					// 'short_desc' => html_entity_decode($short_desc),
+					// 'author' => $author,
 					'img' => base_url('media/uploads/blogs/'.$blog->img),
 					'created_at' => $blog->created_at
 		);
@@ -107,19 +107,16 @@ class Api_Blog extends CI_Controller {
 	}
 
 
-	public function blogbyCategory()
+	public function blogbyCategory($id)
 	{
 		
 		$blog = $this->api_model_blog->getBlogCategory($id);
 
-		$short_desc = strip_tags(character_limiter($blog->description, 70));
 
 		$post = array(
-			'id' => $blog->id,
 					'title' => $blog->title,
 					'category_id' => $blog->category_id,
 					'video_review' => $blog->video_review,
-					'short_desc' => html_entity_decode($short_desc),
 					'img' => base_url('media/uploads/blogs/'.$blog->img),
 					'created_at' => $blog->created_at
 		);
@@ -177,8 +174,7 @@ class Api_Blog extends CI_Controller {
 					'category_id' => $blog->category_id,
 					'description' => $blog->description,
 					'video_review' => $blog->video_review,
-					'short_desc' => html_entity_decode($short_desc),
-					'author' => $author,
+					
 					'img' => base_url('media/uploads/blogs/'.$blog->img),
 					'created_at' => $blog->created_at
 				);
@@ -229,6 +225,7 @@ class Api_Blog extends CI_Controller {
 		if($token) {
 
 			$title = $this->input->post('title');
+			$user_id = $this->input->post('user_id');
 			$description = $this->input->post('description');
 			$video_review = $this->input->post('video_review');
 			$category_id = $this->input->post('category_id');
@@ -264,6 +261,7 @@ class Api_Blog extends CI_Controller {
 			if( ! $isUploadError) {
 	        	$blogData = array(
 					'title' => $title,
+					'user_id' => $user_id,
 					'category_id' => $category_id,
 					'description' => $description,
 					'video_review' => $video_review,
@@ -299,6 +297,7 @@ class Api_Blog extends CI_Controller {
 			$filename = $blog->img;
 
 			$title = $this->input->post('title');
+			$user_id = $this->input->post('user_id');
 			$description = $this->input->post('description');
 			$video_review = $this->input->post('video_review');
 			$category_id = $this->input->post('category_id');

@@ -24,7 +24,7 @@ class Api_Configuracion extends CI_Controller {
 	public function configuracions()
 	{
 
-		$configuracions = $this->api_model_configuracion->get_configuracions( $recentpost=false);
+		$configuracions = $this->api_model_configuracion->get_configuracions();
 
 		$posts = array();
 		if(!empty($configuracions)){
@@ -34,6 +34,7 @@ class Api_Configuracion extends CI_Controller {
 				$posts[] = array(
 					'id' => $configuracion->id,
 					'titulo' => $configuracion->titulo,
+					'cr' => $configuracion->cr,
 					'direccion' => $configuracion->direccion,
 					'telefono_uno' => $configuracion->telefono_uno,
 					'telefono_dos' => $configuracion->telefono_dos,
@@ -68,6 +69,7 @@ class Api_Configuracion extends CI_Controller {
 		$post = array(
 			'id' => $configuracion->id,
 					'titulo' => $configuracion->titulo,
+					'cr' => $configuracion->cr,
 					'direccion' => $configuracion->direccion,
 					'telefono_uno' => $configuracion->telefono_uno,
 					'telefono_dos' => $configuracion->telefono_dos,
@@ -101,26 +103,27 @@ class Api_Configuracion extends CI_Controller {
 
 		$posts = array();
 		if($token) {
-			$configuracions = $this->api_model_configuracion->get_admin_blogs();
-			foreach($blogs as $blog) {
+			$configuracions = $this->api_model_configuracion->get_admin_configuracions();
+			foreach($configuracions as $configuracion) {
 				$posts[] = array(
-					'id' => $configuracion->id,
-					'titulo' => $configuracion->titulo,
-					'direccion' => $configuracion->direccion,
-					'telefono_uno' => $configuracion->telefono_uno,
-					'telefono_dos' => $configuracion->telefono_dos,
-					'email_uno' => $configuracion->email_uno,
-					'email_dos' => $configuracion->email_dos,
-					'horarios' => $configuracion->horarios,
-					'iframe_mapa' => $configuracion->iframe_mapa,
-					'facebook' => $configuracion->facebook,
-					'instagram' => $configuracion->instagram,
-					'youtube' => $configuracion->youtube,
-					'twitter' => $configuracion->twitter,
-					'language' => $configuracion->language,
-					'logo' => base_url('media/uploads/configuracions/'.$configuracion->logo),
-					'favicon' => base_url('media/uploads/configuracions/'.$configuracion->favicon),
-					'created_at' => $configuracion->created_at
+					'id' => $configuracions->id,
+					'titulo' => $configuracions->titulo,
+					'cr' => $configuracions->cr,
+					'direccion' => $configuracions->direccion,
+					'telefono_uno' => $configuracions->telefono_uno,
+					'telefono_dos' => $configuracions->telefono_dos,
+					'email_uno' => $configuracions->email_uno,
+					'email_dos' => $configuracions->email_dos,
+					'horarios' => $configuracions->horarios,
+					'iframe_mapa' => $configuracions->iframe_mapa,
+					'facebook' => $configuracions->facebook,
+					'instagram' => $configuracions->instagram,
+					'youtube' => $configuracions->youtube,
+					'twitter' => $configuracions->twitter,
+					'language' => $configuracions->language,
+					'logo' => base_url('media/uploads/configuracions/'.$configuracions->logo),
+					'favicon' => base_url('media/uploads/configuracions/'.$configuracions->favicon),
+					'created_at' => $configuracions->created_at
 				);
 			}
 
@@ -145,6 +148,7 @@ class Api_Configuracion extends CI_Controller {
 				'id' => $configuracion->id,
 					'titulo' => $configuracion->titulo,
 					'direccion' => $configuracion->direccion,
+					'cr' => $configuracion->cr,
 					'telefono_uno' => $configuracion->telefono_uno,
 					'telefono_dos' => $configuracion->telefono_dos,
 					'email_uno' => $configuracion->email_uno,
@@ -178,6 +182,8 @@ class Api_Configuracion extends CI_Controller {
 		if($token) {
 
 			$titulo = $this->input->post('titulo');
+			$user_id = $this->input->post('user_id');
+			$cr = $this->input->post('cr');
 			$direccion = $this->input->post('direccion');
 			$telefono_uno = $this->input->post('telefono_uno');
 			$telefono_dos = $this->input->post('telefono_dos');
@@ -199,7 +205,7 @@ class Api_Configuracion extends CI_Controller {
 			if ($_FILES && $_FILES['logo']['name']) {
 
 				$config['upload_path']          = './media/uploads/configuracions/';
-	            $config['allowed_types']        = 'gif|jpg|png|jpeg';
+	            $config['allowed_types']        = 'gif|jpg|png|jpeg|ico';
 	            $config['max_size']             = 500;
 
 	            $this->load->library('upload', $config);
@@ -244,6 +250,7 @@ class Api_Configuracion extends CI_Controller {
 					'titulo' => $titulo,
 					'user_id' => $user_id,
 					'direccion' => $direccion,
+					'cr' => $cr,
 					'telefono_uno' => $telefono_uno,
 					'telefono_dos' => $telefono_dos,
 					'email_uno' => $email_uno,
@@ -287,6 +294,8 @@ class Api_Configuracion extends CI_Controller {
 			$filename2 = $configuracion->favicon;
 
 			$titulo = $this->input->post('titulo');
+			$user_id = $this->input->post('user_id');
+			$cr = $this->input->post('cr');
 			$direccion = $this->input->post('direccion');
 			$telefono_uno = $this->input->post('telefono_uno');
 			$telefono_dos = $this->input->post('telefono_dos');
@@ -361,8 +370,9 @@ class Api_Configuracion extends CI_Controller {
 			if( ! $isUploadError) {
 	        	$configuracionData = array(
 					'titulo' => $titulo,
-					'user_id' => $user_id,
 					'direccion' => $direccion,
+					'user_id' => $user_id,
+					'cr' => $cr,
 					'telefono_uno' => $telefono_uno,
 					'telefono_dos' => $telefono_dos,
 					'email_uno' => $email_uno,

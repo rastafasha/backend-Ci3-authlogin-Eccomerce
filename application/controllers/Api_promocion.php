@@ -38,13 +38,14 @@ class Api_Promocion extends CI_Controller {
 					'first_title' => $promocion->first_title,
 					'producto_title' => $promocion->producto_title,
 					'description' => $promocion->description,
+					'subtitulo' => $promocion->subtitulo,
 					'is_activeText' => $promocion->is_activeText,
 					'is_activeBot' => $promocion->is_activeBot,
 					'boton' => $promocion->boton,
 					'enlace' => $promocion->enlace,
                     'target' => $promocion->target,
                     'is_active' => $promocion->is_active,
-					'img' => base_url('media/images/uploads/promocions/'.$promocion->img)
+					'img' => base_url('./media/uploads/promocions/'.$promocion->img)
 				);
 			}
 		}
@@ -66,13 +67,14 @@ class Api_Promocion extends CI_Controller {
 					'first_title' => $promocion->first_title,
 					'producto_title' => $promocion->producto_title,
 					'description' => $promocion->description,
+					'subtitulo' => $promocion->subtitulo,
 					'is_activeText' => $promocion->is_activeText,
 					'is_activeBot' => $promocion->is_activeBot,
 					'boton' => $promocion->boton,
 					'enlace' => $promocion->enlace,
                     'target' => $promocion->target,
                     'is_active' => $promocion->is_active,
-					'img' => base_url('media/images/uploads/promocions/'.$promocion->img)
+					'img' => base_url('media/uploads/promocions/'.$promocion->img)
 		);
 		
 		$this->output
@@ -95,13 +97,14 @@ class Api_Promocion extends CI_Controller {
 					'first_title' => $promocion->first_title,
 					'producto_title' => $promocion->producto_title,
 					'description' => $promocion->description,
+					'subtitulo' => $promocion->subtitulo,
 					'is_activeText' => $promocion->is_activeText,
 					'is_activeBot' => $promocion->is_activeBot,
 					'boton' => $promocion->boton,
 					'enlace' => $promocion->enlace,
                     'target' => $promocion->target,
                     'is_active' => $promocion->is_active,
-					'img' => base_url('media/images/uploads/promocions/'.$promocion->img)
+					'img' => base_url('./media/uploads/promocions/'.$promocion->img)
 				);
 			}
 		}
@@ -131,13 +134,14 @@ class Api_Promocion extends CI_Controller {
 					'first_title' => $promocion->first_title,
 					'producto_title' => $promocion->producto_title,
 					'description' => $promocion->description,
+					'subtitulo' => $promocion->subtitulo,
 					'is_activeText' => $promocion->is_activeText,
 					'is_activeBot' => $promocion->is_activeBot,
 					'boton' => $promocion->boton,
 					'enlace' => $promocion->enlace,
                     'target' => $promocion->target,
                     'is_active' => $promocion->is_active,
-					'img' => base_url('media/images/uploads/promocions/'.$promocion->img)
+					'img' => base_url('./media/uploads/promocions/'.$promocion->img)
 				);
 			}
 
@@ -163,13 +167,14 @@ class Api_Promocion extends CI_Controller {
 					'first_title' => $promocion->first_title,
 					'producto_title' => $promocion->producto_title,
 					'description' => $promocion->description,
+					'subtitulo' => $promocion->subtitulo,
 					'is_activeText' => $promocion->is_activeText,
 					'is_activeBot' => $promocion->is_activeBot,
 					'boton' => $promocion->boton,
 					'enlace' => $promocion->enlace,
                     'target' => $promocion->target,
                     'is_active' => $promocion->is_active,
-					'img' => base_url('media/images/uploads/promocions/'.$promocion->img)
+					'img' => base_url('./media/uploads/promocions/'.$promocion->img)
 			);
 			
 
@@ -189,8 +194,10 @@ class Api_Promocion extends CI_Controller {
 		if($token) {
 
 			$first_title = $this->input->post('first_title');
+			$user_id = $this->input->post('user_id');
 			$producto_title = $this->input->post('producto_title');
 			$description = $this->input->post('description');
+			$subtitulo = $this->input->post('subtitulo');
 			$is_activeText = $this->input->post('is_activeText');
 			$is_activeBot = $this->input->post('is_activeBot');
 			$boton = $this->input->post('boton');
@@ -204,7 +211,7 @@ class Api_Promocion extends CI_Controller {
 
 			if ($_FILES && $_FILES['img']['name']) {
 
-				$config['upload_path']          = './media/images/uploads/promocions/';
+				$config['upload_path']          = './media/uploads/promocions/';
 	            $config['allowed_types']        = 'gif|jpg|png|jpeg';
 	            $config['max_size']             = 500;
 
@@ -230,6 +237,7 @@ class Api_Promocion extends CI_Controller {
 					'producto_title' => $producto_title,
 					'user_id' => $user_id,
 					'description' => $description,
+					'subtitulo' => $subtitulo,
 					'img' => $filename,
 					'is_activeText' => $is_activeText,
 					'is_activeBot' => $is_activeBot,
@@ -265,7 +273,9 @@ class Api_Promocion extends CI_Controller {
 			$filename = $promocion->img;
 
 			$first_title = $this->input->post('first_title');
+			$user_id = $this->input->post('user_id');
 			$producto_title = $this->input->post('producto_title');
+			$subtitulo = $this->input->post('subtitulo');
 			$description = $this->input->post('description');
 			$is_activeText = $this->input->post('is_activeText');
 			$is_activeBot = $this->input->post('is_activeBot');
@@ -278,7 +288,7 @@ class Api_Promocion extends CI_Controller {
 
 			if ($_FILES && $_FILES['img']['name']) {
 
-				$config['upload_path']          = './media/images/uploads/promocions/';
+				$config['upload_path']          = './media/uploads/promocions/';
 	            $config['allowed_types']        = 'gif|jpg|png|jpeg';
 	            $config['max_size']             = 500;
 
@@ -294,9 +304,9 @@ class Api_Promocion extends CI_Controller {
 	            }
 	            else {
 	   
-					if($promocion->img && file_exists(FCPATH.'media/images/uploads/promocions/'.$promocion->img))
+					if($promocion->img && file_exists(FCPATH.'media/uploads/promocions/'.$promocion->img))
 					{
-						unlink(FCPATH.'media/images/uploads/promocions/'.$promocion->img);
+						unlink(FCPATH.'media/uploads/promocions/'.$promocion->img);
 					}
 
 	            	$uploadData = $this->upload->data();
@@ -310,6 +320,7 @@ class Api_Promocion extends CI_Controller {
 					'producto_title' => $producto_title,
 					'user_id' => $user_id,
 					'description' => $description,
+					'subtitulo' => $subtitulo,
 					'img' => $filename,
 					'is_activeText' => $is_activeText,
 					'is_activeBot' => $is_activeBot,
@@ -343,9 +354,9 @@ class Api_Promocion extends CI_Controller {
 
 			$promocion = $this->api_model_promocion->get_admin_promocion($id);
 
-			if($promocion->img && file_exists(FCPATH.'media/images/uploads/promocions/'.$promocion->img))
+			if($promocion->img && file_exists(FCPATH.'./media/uploads/promocions/'.$promocion->img))
 			{
-				unlink(FCPATH.'media/images/uploads/promocions/'.$promocion->img);
+				unlink(FCPATH.'./media/uploads/promocions/'.$promocion->img);
 			}
 
 			$this->api_model_promocion->deletePromocion($id);

@@ -35,7 +35,6 @@ class Api_Category extends CI_Controller {
 				$posts[] = array(
 					'id' => $category->id,
 					'category_name' => $category->category_name,
-					'subcategory' => $category->subcategory
 				);
 			}
 		}
@@ -53,7 +52,6 @@ class Api_Category extends CI_Controller {
 		$post = array(
 			'id' => $category->id,
 			'category_name' => $category->category_name,
-			'subcategory' => $category->subcategory
 		);
 		
 		$this->output
@@ -75,7 +73,6 @@ class Api_Category extends CI_Controller {
 				$posts[] = array(
 					'id' => $category->id,
 					'category_name' => $category->category_name,
-					'subcategory' => $category->subcategory,
 					'created_at' => $category->created_at
 				);
 			}
@@ -100,7 +97,6 @@ class Api_Category extends CI_Controller {
 				$posts[] = array(
 					'id' => $category->id,
 					'category_name' => $category->category_name,
-					'subcategory' => $category->subcategory,
 					'created_at' => $category->created_at
 				);
 			}
@@ -125,7 +121,6 @@ class Api_Category extends CI_Controller {
 			$post = array(
 				'id' => $category->id,
 					'category_name' => $category->category_name,
-					'subcategory' => $category->subcategory,
 					'created_at' => $category->created_at
 			);
 			
@@ -139,34 +134,28 @@ class Api_Category extends CI_Controller {
 
 	public function createCategory()
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		
 
-		if($token) {
+		$category_name = $this->input->post('category_name');
 
-			$category_name = $this->input->post('category_name');
-			$subcategory = $this->input->post('subcategory');
+		
+		$categoryData = array(
+			'category_name' => $category_name,
+		);
 
-			
-			$categoryData = array(
-				'category_name' => $category_name,
-				'subcategory' => $subcategory
-			);
+		$id = $this->api_model_category->insertCategory($categoryData);
 
-			$id = $this->api_model_category->insertCategory($categoryData);
+		$response = array(
+			'status' => 'success'
+		);
 
-			$response = array(
-				'status' => 'success'
-			);
+		
 
-			
-
-			$this->output
-				->set_status_header(200)
-				->set_content_type('application/json')
-				->set_output(json_encode($response)); 
-		}
+		$this->output
+			->set_status_header(200)
+			->set_content_type('application/json')
+			->set_output(json_encode($response)); 
+		
 
 	}
 
@@ -182,12 +171,10 @@ class Api_Category extends CI_Controller {
 			$category = $this->api_model_category->get_admin_category($id);
 
 			$category_name = $this->input->post('category_name');
-			$subcategory = $this->input->post('subcategory');
 
 
 			$categoryData = array(
 				'category_name' => $category_name,
-				'subcategory' => $subcategory
 			);
 
 			$this->api_model_category->updateCategory($id, $categoryData);

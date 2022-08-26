@@ -35,7 +35,7 @@ class Api_Galleryproduct extends CI_Controller {
 				$posts[] = array(
 					'id' => $galleryproduct->id,
 					'product_id' => $galleryproduct->product_id,
-					'img' => base_url('media/images/uploads/galleryproducts/'.$galleryproduct->img),
+					'img' => base_url('media/uploads/galleryproducts/'.$galleryproduct->img),
 					'created_at' => $galleryproduct->created_at
 				);
 			}
@@ -55,7 +55,7 @@ class Api_Galleryproduct extends CI_Controller {
 		$post = array(
 			'id' => $galleryproduct->id,
 					'product_id' => $galleryproduct->product_id,
-					'img' => base_url('media/images/uploads/galleryproducts/'.$galleryproduct->img),
+					'img' => base_url('media/uploads/galleryproducts/'.$galleryproduct->img),
 					'created_at' => $galleryproduct->created_at
 		);
 		
@@ -78,7 +78,7 @@ class Api_Galleryproduct extends CI_Controller {
 				$posts[] = array(
 					'id' => $galleryproduct->id,
 					'product_id' => $galleryproduct->product_id,
-					'img' => base_url('media/images/uploads/galleryproducts/'.$galleryproduct->img),
+					'img' => base_url('media/uploads/galleryproducts/'.$galleryproduct->img),
 					'created_at' => $galleryproduct->created_at
 				);
 			}
@@ -103,7 +103,7 @@ class Api_Galleryproduct extends CI_Controller {
 				$posts[] = array(
 					'id' => $galleryproduct->id,
 					'product_id' => $galleryproduct->product_id,
-					'img' => base_url('media/images/uploads/galleryproducts/'.$galleryproduct->img),
+					'img' => base_url('media/uploads/galleryproducts/'.$galleryproduct->img),
 					'created_at' => $galleryproduct->created_at
 				);
 			}
@@ -128,7 +128,7 @@ class Api_Galleryproduct extends CI_Controller {
 			$post = array(
 				'id' => $galleryproduct->id,
 					'product_id' => $galleryproduct->product_id,
-					'img' => base_url('media/images/uploads/galleryproducts/'.$galleryproduct->img),
+					'img' => base_url('media/uploads/galleryproducts/'.$galleryproduct->img),
 					'created_at' => $galleryproduct->created_at
 			);
 			
@@ -140,7 +140,7 @@ class Api_Galleryproduct extends CI_Controller {
 		}
 	}
 
-	public function createGalleryproduct()
+	public function createGalleryProduct()
 	{
 		$headerToken = $this->input->get_request_header('Authorization');
         $splitToken = explode(" ", $headerToken);
@@ -149,6 +149,7 @@ class Api_Galleryproduct extends CI_Controller {
 		if($token) {
 
 			$product_id = $this->input->post('product_id');
+			$user_id = $this->input->post('user_id');
 
 			$filename = NULL;
 
@@ -198,7 +199,7 @@ class Api_Galleryproduct extends CI_Controller {
 		}
 	}
 
-	public function updateGalleryproduct($id)
+	public function updateGalleryProduct($id)
 	{
 		$headerToken = $this->input->get_request_header('Authorization');
         $splitToken = explode(" ", $headerToken);
@@ -210,6 +211,7 @@ class Api_Galleryproduct extends CI_Controller {
 			$filename = $galleryproduct->img;
 
 			$product_id = $this->input->post('product_id');
+			$user_id = $this->input->post('user_id');
 
 			$isUploadError = FALSE;
 

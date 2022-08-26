@@ -26,16 +26,15 @@ class Api_Gallery extends CI_Controller {
 	{
 		
 
-		$gallerys = $this->api_model_gallery->get_gallerys($featured=false, $recentpost=false);
+		$gallerys = $this->api_model_gallery->get_galleries($featured=false, $recentpost=false);
 
 		$posts = array();
 		if(!empty($gallery)){
-			foreach($gallerys as $gallery){
-
+			foreach($gallerys as $gallery) {
 				$posts[] = array(
 					'id' => $gallery->id,
 					'titulo' => $gallery->titulo,
-					'img' => base_url('media/images/uploads/gallerys/'.$gallery->img),
+					'img' => base_url('media/uploads/gallerys/'.$gallery->img),
 					'created_at' => $gallery->created_at
 				);
 			}
@@ -55,8 +54,8 @@ class Api_Gallery extends CI_Controller {
 		$post = array(
 			'id' => $gallery->id,
             'titulo' => $gallery->titulo,
-					'img' => base_url('media/images/uploads/gallerys/'.$gallery->img),
-					'created_at' => $gallery->created_at
+			'img' => base_url('media/uploads/gallerys/'.$gallery->img),
+			'created_at' => $gallery->created_at
 		);
 		
 		$this->output
@@ -78,7 +77,7 @@ class Api_Gallery extends CI_Controller {
 				$posts[] = array(
 					'id' => $gallery->id,
 					'titulo' => $gallery->titulo,
-					'img' => base_url('media/images/uploads/gallerys/'.$gallery->img),
+					'img' => base_url('media/uploads/gallerys/'.$gallery->img),
 					'created_at' => $gallery->created_at
 				);
 			}
@@ -103,7 +102,7 @@ class Api_Gallery extends CI_Controller {
 				$posts[] = array(
 					'id' => $gallery->id,
 					'titulo' => $gallery->titulo,
-					'img' => base_url('media/images/uploads/gallerys/'.$gallery->img),
+					'img' => base_url('media/uploads/gallerys/'.$gallery->img),
 					'created_at' => $gallery->created_at
 				);
 			}
@@ -128,7 +127,7 @@ class Api_Gallery extends CI_Controller {
 			$post = array(
 				'id' => $gallery->id,
                 'titulo' => $gallery->titulo,
-					'img' => base_url('media/images/uploads/gallerys/'.$gallery->img),
+					'img' => base_url('media/uploads/gallerys/'.$gallery->img),
 					'created_at' => $gallery->created_at
 			);
 			
@@ -149,6 +148,8 @@ class Api_Gallery extends CI_Controller {
 		if($token) {
 
 			$titulo = $this->input->post('titulo');
+			$user_id = $this->input->post('user_id');
+			$category_id = $this->input->post('category_id');
 
 			$filename = NULL;
 
@@ -180,6 +181,7 @@ class Api_Gallery extends CI_Controller {
 	        	$galleryData = array(
 					'titulo' => $titulo,
 					'user_id' => $user_id,
+					'category_id' => $category_id,
 					'img' => $filename,
 					'created_at' => date('Y-m-d H:i:s', time())
 				);
@@ -210,6 +212,7 @@ class Api_Gallery extends CI_Controller {
 			$filename = $gallery->img;
 
 			$titulo = $this->input->post('titulo');
+			$user_id = $this->input->post('user_id');
 
 			$isUploadError = FALSE;
 

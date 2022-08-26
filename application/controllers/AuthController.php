@@ -26,9 +26,8 @@ class AuthController extends CI_Controller {
 
         $email = $this->input->post('email');
         $password = $this->input->post('password');
-        $id = $this->input->post('id');
 
-        $user = $this->AuthModel->check_login($email, $password, $id);
+        $user = $this->AuthModel->check_login($email, $password);
         // echo json_encode($user);
 
         if($user === false){
@@ -106,6 +105,80 @@ class AuthController extends CI_Controller {
             
     }
 
+    public function editUser($id)
+	{
+		$headerToken = $this->input->get_request_header('Authorization');
+        $splitToken = explode(" ", $headerToken);
+        $token =  $splitToken[0];
+
+		if($token) {
+
+			$user = $this->AuthModel->get_user($id);
+			$filename = $user->img;
+
+			$first_name = $this->input->post('first_name');
+			$last_name = $this->input->post('last_name');
+			$role_id = $this->input->post('role_id');
+			$username = $this->input->post('username');
+			$email = $this->input->post('email');
+			$google = $this->input->post('google');
+
+			$isUploadError = FALSE;
+
+			if ($_FILES && $_FILES['img']['name']) {
+
+				$config['upload_path']          = './media/uploads/users/';
+	            $config['allowed_types']        = 'gif|jpg|png|jpeg';
+	            $config['max_size']             = 500;
+
+	            $this->load->library('upload', $config);
+	            if ( ! $this->upload->do_upload('img')) {
+
+	            	$isUploadError = TRUE;
+
+					$response = array(
+						'status' => 'error',
+						'message' => $this->upload->display_errors()
+					);
+	            }
+	            else {
+	   
+					if($user->img && file_exists(FCPATH.'media/uploads/users/'.$user->img))
+					{
+						unlink(FCPATH.'media/uploads/users/'.$user->img);
+					}
+
+	            	$uploadData = $this->upload->data();
+            		$filename = $uploadData['file_name'];
+	            }
+			}
+
+
+			if( ! $isUploadError) {
+	        	$userData = array(
+					'first_name' => $first_name,
+					'last_name' => $last_name,
+					'role_id' => $role_id,
+					'username' => $username,
+					'email' => $email,
+					'google' => $google,
+					'img' => $filename,
+				);
+
+				$this->api_model->updateUser($id, $userData);
+
+				$response = array(
+					'status' => 'success'
+				);
+           	}
+
+			$this->output
+				->set_status_header(200)
+				->set_content_type('application/json')
+				->set_output(json_encode($response)); 
+		}
+	}
+
 
     public function renewToken(){
         $header = $this->input->get_request_header('Authorization');
@@ -118,6 +191,8 @@ class AuthController extends CI_Controller {
             try {
                 $token = verifyAuthToken($token);
                 if($token){
+
+
                     
                     $user_id = $this->AuthModel->renewToken();
 

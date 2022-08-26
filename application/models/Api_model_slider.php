@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Api_model_slide extends CI_Model 
+class Api_model_slider extends CI_Model 
 {
 	public function get_sliders($featured, $recentpost)
 	{

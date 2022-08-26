@@ -125,6 +125,7 @@ class Api_Contact extends CI_Controller {
 		$message .= '<p><strong>Name: </strong>'.$contactData['name'].'</p>';
 		$message .= '<p><strong>Email: </strong>'.$contactData['email'].'</p>';
 		$message .= '<p><strong>Phone: </strong>'.$contactData['phone'].'</p>';
+		$message .= '<p><strong>Tema: </strong>'.$contactData['tema'].'</p>';
 		$message .= '<p><strong>Name: </strong>'.$contactData['message'].'</p>';
 		$message .= '<br />Thanks';
 
@@ -138,7 +139,7 @@ class Api_Contact extends CI_Controller {
 
 		$this->email->initialize($config);
 
-		$this->email->from('mercadocreativo@gmail.com', 'RSGiTECH');
+		$this->email->from('mercadocreativo@gmail.com', 'UrsiAdmin');
 		$this->email->to('mercadocreativo@gmail.com');
 		$this->email->cc('mercadocreativo@hotmail.com');
 		$this->email->bcc('mercadocreativo@gmail.com');

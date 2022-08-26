@@ -35,7 +35,7 @@ class Api_Marca extends CI_Controller {
 
 				$posts[] = array(
 					'id' => $marca->id,
-					'marca_name' => $marca->title,
+					'marca_name' => $marca->marca_name,
 					'img' => base_url('media/uploads/marcas/'.$marca->img),
 					'created_at' => $marca->created_at
 				);
@@ -56,7 +56,7 @@ class Api_Marca extends CI_Controller {
 
 		$post = array(
 			'id' => $marca->id,
-					'marca_name' => $marca->title,
+					'marca_name' => $marca->marca_name,
 					'img' => base_url('media/uploads/marcas/'.$marca->img),
 					'created_at' => $marca->created_at
 		);
@@ -78,7 +78,7 @@ class Api_Marca extends CI_Controller {
 
 				$posts[] = array(
 					'id' => $marca->id,
-					'marca_name' => $marca->title,
+					'marca_name' => $marca->marca_name,
 					'img' => base_url('media/uploads/marcas/'.$marca->img),
 					'created_at' => $marca->created_at
 				);
@@ -103,7 +103,7 @@ class Api_Marca extends CI_Controller {
 			foreach($marcas as $marca) {
 				$posts[] = array(
 					'id' => $marca->id,
-					'marca_name' => $marca->title,
+					'marca_name' => $marca->marca_name,
 					'img' => base_url('media/uploads/marcas/'.$marca->img),
 					'created_at' => $marca->created_at
 				);
@@ -128,7 +128,7 @@ class Api_Marca extends CI_Controller {
 
 			$post = array(
 				'id' => $marca->id,
-					'marca_name' => $marca->title,
+					'marca_name' => $marca->marca_name,
 					'img' => base_url('media/uploads/marcas/'.$marca->img),
 					'created_at' => $marca->created_at
 			);
@@ -180,9 +180,7 @@ class Api_Marca extends CI_Controller {
 			if( ! $isUploadError) {
 	        	$marcaData = array(
 					'marca_name' => $marca_name,
-					'user_id' => $user_id,
-					'img' => $filename,
-					'created_at' => date('Y-m-d H:i:s', time())
+					'img' => $filename
 				);
 
 				$id = $this->api_model_marca->insertMarca($marcaData);

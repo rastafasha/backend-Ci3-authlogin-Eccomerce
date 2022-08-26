@@ -29,9 +29,8 @@ class Api_model_category extends CI_Model
 
 	public function get_admin_categorys()
 	{
-		$this->db->select('category.*, u.first_name, u.last_name');
+		$this->db->select('category.*');
 		$this->db->from('categories category');
-		$this->db->join('users u', 'u.id=category.user_id');
 		$this->db->order_by('category.created_at', 'desc');
 		$query = $this->db->get();
 		return $query->result();

@@ -5,11 +5,9 @@ class Api_model_blog extends CI_Model
 {
 	public function get_blogs($featured, $recentpost)
 	{
-		$this->db->select('blog.*, category.category_name, user.first_name, user.last_name');
+		$this->db->select('blog.*');
 		$this->db->from('blogs blog');
-		$this->db->join('users user', 'user.user_id=blog.user_id');
-		$this->db->join('categories category', 'category.id=blog.category_id', 'left');
-		$this->db->where('blog.is_active', 1);
+		// $this->db->where('blog.is_active', 1);
 
 		if($featured) {
 			$this->db->where('blog.is_featured', 1);
@@ -24,25 +22,21 @@ class Api_model_blog extends CI_Model
 
 	public function get_blog($id)
 	{
-		$this->db->select('blog.*, category.category_name, user.first_name, user.last_name');
+		$this->db->select('blog.*');
 		$this->db->from('blogs blog');
-		$this->db->join('users user', 'user.user_id=blog.user_id');
 		$this->db->join('categories category', 'category.id=blog.category_id', 'left');
 		$this->db->where('blog.is_active', 1);
 		$this->db->where('blog.id', $id);
 		$query = $this->db->get();
 		return $query->row();
 	}
-	public function getBlogCategory()
-	{
-		$query = $this->db
-		->select('category_id, COUNT(id) as cat_count')
-		->from('blogs')
-		->group_by('category_id')
-		->order_by('category_id')
-		->get();
-		
-		return $query->result_array();
+	public function getBlogCategory($id){
+		$this->db->select('category_id');
+		$this->db->from('blogs blog');
+		$this->db->join('categories category', 'category.id=blog.category_id', 'left');
+		$this->db->where('blog.category_id', $id);
+		$query = $this->db->get();
+		return $query->row();
 	}
 
 	public function get_categories()
@@ -57,7 +51,7 @@ class Api_model_blog extends CI_Model
 	{
 		$this->db->select('blog.*, u.first_name, u.last_name');
 		$this->db->from('blogs blog');
-		$this->db->join('users u', 'u.id=post.user_id');
+		$this->db->join('users u', 'u.id=blog.user_id');
 		$this->db->order_by('blog.created_at', 'desc');
 		$query = $this->db->get();
 		return $query->result();

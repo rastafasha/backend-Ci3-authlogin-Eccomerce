@@ -5,9 +5,8 @@ class Api_model_page extends CI_Model
 {
 	public function get_pages($featured, $recentpost)
 	{
-		$this->db->select('page.*, cat.category_name');
+		$this->db->select('page.*');
 		$this->db->from('pages page');
-		$this->db->join('users u', 'u.id=page.user_id');
 		$this->db->join('categories cat', 'cat.id=page.category_id', 'left');
 		$this->db->where('page.is_active', 1);
 

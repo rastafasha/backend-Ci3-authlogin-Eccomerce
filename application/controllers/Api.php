@@ -14,8 +14,10 @@ class Api extends CI_Controller {
 		$this->load->helper('verifyAuthToken');
 
         header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Request-Methods: GET,POST,OPTIONS,DELETE,PUT");
+        header("Content-Type: application/json");
+        header("Access-Control-Request-Methods: GET, PUT, POST, DELETE, OPTIONS");
         header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
+        header("Access-Control-Allow-Headers: Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Access-Control-Allow-Request-Method");
 	}
 
 
@@ -30,7 +32,7 @@ class Api extends CI_Controller {
 			foreach($users as $user){
 
 				$posts[] = array(
-					'id' => $user->user_id,
+					'id' => $user->id,
 					'username' => $user->username,
 					'first_name' => $user->first_name,
 					'last_name' => $user->last_name,
@@ -53,7 +55,7 @@ class Api extends CI_Controller {
 		$user = $this->api_model->get_user($id);
 
 		$post = array(
-			'id' => $user->user_id,
+			'id' => $user->id,
 					'username' => $user->username,
 					'first_name' => $user->first_name,
 					'last_name' => $user->last_name,

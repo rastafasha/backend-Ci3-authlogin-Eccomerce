@@ -25,49 +25,42 @@ class Api_Curso extends CI_Controller {
 	public function cursos()
 	{
 		
-
-		$cursos = $this->api_model_curso->get_cursos($featured=false, $recentpost=false);
+		$cursos = $this->api_model_curso->get_cursos();
 
 		$posts = array();
-		if(!empty($cursos)){
-			foreach($cursos as $curso){
-
-				$short_desc = strip_tags(character_limiter($curso->description, 70));
-
-				$posts[] = array(
-					'id' => $curso->id,
-					'name' => $curso->name,
-					'price' => $curso->price,
-					'description' => $curso->description,
-					'video_review' => $curso->video_review,
-					'info_short' => $curso->info_short,
-					'subcategory' => $curso->subcategory,
-					'category_id' => $curso->category_id,
-                    'is_featured' => $curso->is_featured,
-                    'is_active' => $curso->is_active,
-                    'short_desc' => html_entity_decode($short_desc),
-					'img' => base_url('media/images/uploads/cursos/'.$curso->img),
-					'created_at' => $curso->created_at
-				);
-			}
+		foreach($cursos as $curso) {
+			$posts[] = array(
+				'id' => $curso->id,
+				'name' => $curso->name,
+				'price' => $curso->price,
+				'description' => $curso->description,
+				'video_review' => $curso->video_review,
+				'info_short' => $curso->info_short,
+				'category_id' => $curso->category_id,
+				'is_featured' => $curso->is_featured,
+				'is_active' => $curso->is_active,
+				'img' => base_url('media/uploads/cursos/'.$curso->img),
+				'created_at' => $curso->created_at
+			);
 		}
 
 		$this->output
+			->set_status_header(200)
 			->set_content_type('application/json')
-			->set_output(json_encode($posts));
+			->set_output(json_encode($posts)); 
 	}
 
 	public function featured_cursos()
 	{
 		
 
-		$cursos = $this->api_model_curso->get_cursos($featured=true, $recentpost=false);
+		$cursos = $this->api_model_curso->get_cursosr($featured=true, $recentpost=false);
 
 		$posts = array();
 		if(!empty($cursos)){
 			foreach($cursos as $curso){
 				
-				$short_desc = strip_tags(character_limiter($curso->description, 70));
+				// $short_desc = strip_tags(character_limiter($curso->description, 70));
 
 				$posts[] = array(
 					'id' => $curso->id,
@@ -76,12 +69,10 @@ class Api_Curso extends CI_Controller {
 					'description' => $curso->description,
 					'video_review' => $curso->video_review,
 					'info_short' => $curso->info_short,
-					'subcategory' => $curso->subcategory,
 					'category_id' => $curso->category_id,
                     'is_featured' => $curso->is_featured,
                     'is_active' => $curso->is_active,
-                    'short_desc' => html_entity_decode($short_desc),
-					'img' => base_url('media/images/uploads/cursos/'.$curso->img),
+					'img' => base_url('media/uploads/cursos/'.$curso->img),
 					'created_at' => $curso->created_at
 				);
 			}
@@ -100,18 +91,16 @@ class Api_Curso extends CI_Controller {
 
 		$post = array(
 			'id' => $curso->id,
-					'name' => $curso->name,
-					'price' => $curso->price,
-					'description' => $curso->description,
-					'video_review' => $curso->video_review,
-					'info_short' => $curso->info_short,
-					'subcategory' => $curso->subcategory,
-					'category_id' => $curso->category_id,
-                    'is_featured' => $curso->is_featured,
-                    'is_active' => $curso->is_active,
-                    'short_desc' => html_entity_decode($short_desc),
-					'img' => base_url('media/images/uploads/cursos/'.$curso->img),
-					'created_at' => $curso->created_at
+			'name' => $curso->name,
+			'price' => $curso->price,
+			'description' => $curso->description,
+			'video_review' => $curso->video_review,
+			'info_short' => $curso->info_short,
+			'category_id' => $curso->category_id,
+			'is_featured' => $curso->is_featured,
+			'is_active' => $curso->is_active,
+			'img' => base_url('media/uploads/cursos/'.$curso->img),
+			'created_at' => $curso->created_at
 		);
 		
 		$this->output
@@ -123,13 +112,13 @@ class Api_Curso extends CI_Controller {
 	{
 		
 
-		$cursos = $this->api_model_curso->get_cursos($featured=false, $recentpost=5);
+		$cursos = $this->api_model_curso->get_cursosr($featured=false, $recentpost=5);
 
 		$posts = array();
 		if(!empty($cursos)){
 			foreach($cursos as $curso){
 				
-				$short_desc = strip_tags(character_limiter($curso->description, 70));
+				// $short_desc = strip_tags(character_limiter($curso->description, 70));
 
 				$posts[] = array(
 					'id' => $curso->id,
@@ -138,12 +127,10 @@ class Api_Curso extends CI_Controller {
 					'description' => $curso->description,
 					'video_review' => $curso->video_review,
 					'info_short' => $curso->info_short,
-					'subcategory' => $curso->subcategory,
 					'category_id' => $curso->category_id,
                     'is_featured' => $curso->is_featured,
                     'is_active' => $curso->is_active,
-                    'short_desc' => html_entity_decode($short_desc),
-					'img' => base_url('media/images/uploads/cursos/'.$curso->img),
+					'img' => base_url('media/uploads/cursos/'.$curso->img),
 					'created_at' => $curso->created_at
 				);
 			}
@@ -157,36 +144,31 @@ class Api_Curso extends CI_Controller {
 
 	public function adminCursos()
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		
 
 		$posts = array();
-		if($token) {
-			$cursos = $this->api_model_curso->get_admin_cursos();
-			foreach($cursos as $curso) {
-				$posts[] = array(
-					'id' => $curso->id,
-					'name' => $curso->name,
-					'price' => $curso->price,
-					'description' => $curso->description,
-					'video_review' => $curso->video_review,
-					'info_short' => $curso->info_short,
-					'subcategory' => $curso->subcategory,
-					'category_id' => $curso->category_id,
-                    'is_featured' => $curso->is_featured,
-                    'is_active' => $curso->is_active,
-                    'short_desc' => html_entity_decode($short_desc),
-					'img' => base_url('media/images/uploads/cursos/'.$curso->img),
-					'created_at' => $curso->created_at
-				);
-			}
-
-			$this->output
-				->set_status_header(200)
-				->set_content_type('application/json')
-				->set_output(json_encode($posts)); 
+		$cursos = $this->api_model_curso->get_admin_cursos();
+		foreach($cursos as $curso) {
+			$posts[] = array(
+				'id' => $curso->id,
+				'name' => $curso->name,
+				'price' => $curso->price,
+				'description' => $curso->description,
+				'video_review' => $curso->video_review,
+				'info_short' => $curso->info_short,
+				'category_id' => $curso->category_id,
+				'is_featured' => $curso->is_featured,
+				'is_active' => $curso->is_active,
+				'img' => base_url('media/uploads/cursos/'.$curso->img),
+				'created_at' => $curso->created_at
+			);
 		}
+
+		$this->output
+			->set_status_header(200)
+			->set_content_type('application/json')
+			->set_output(json_encode($posts)); 
+		
 	}
 
 	public function adminCurso($id)
@@ -206,12 +188,11 @@ class Api_Curso extends CI_Controller {
 					'description' => $curso->description,
 					'video_review' => $curso->video_review,
 					'info_short' => $curso->info_short,
-					'subcategory' => $curso->subcategory,
 					'category_id' => $curso->category_id,
                     'is_featured' => $curso->is_featured,
                     'is_active' => $curso->is_active,
-                    'short_desc' => html_entity_decode($short_desc),
-					'img' => base_url('media/images/uploads/cursos/'.$curso->img),
+					'img' => base_url('media/uploads/cursos/'.$curso->img),
+					'created_at' => $curso->created_at
 			);
 			
 
@@ -230,13 +211,12 @@ class Api_Curso extends CI_Controller {
 
 		if($token) {
 
+			$user_id = $this->input->post('user_id');
 			$name = $this->input->post('name');
 			$price = $this->input->post('price');
-			$description = $this->input->post('description');
 			$video_review = $this->input->post('video_review');
-			$info_short = $this->input->post('info_short');
-			$subcategory = $this->input->post('subcategory');
 			$category_id = $this->input->post('category_id');
+			$info_short = $this->input->post('info_short');
 			$is_featured = $this->input->post('is_featured');
 			$is_active = $this->input->post('is_active');
 
@@ -272,10 +252,8 @@ class Api_Curso extends CI_Controller {
 					'price' => $price,
 					'user_id' => $user_id,
 					'category_id' => $category_id,
-					'subcategory' => $subcategory,
-					'description' => $description,
-					'video_review' => $video_review,
 					'info_short' => $info_short,
+					'video_review' => $video_review,
 					'img' => $filename,
 					'is_featured' => $is_featured,
 					'is_active' => $is_active,
@@ -308,11 +286,11 @@ class Api_Curso extends CI_Controller {
 			$filename = $curso->img;
 
 			$name = $this->input->post('name');
+			$user_id = $this->input->post('user_id');
 			$price = $this->input->post('price');
 			$description = $this->input->post('description');
 			$video_review = $this->input->post('video_review');
 			$info_short = $this->input->post('info_short');
-			$subcategory = $this->input->post('subcategory');
 			$category_id = $this->input->post('category_id');
 			$is_featured = $this->input->post('is_featured');
 			$is_active = $this->input->post('is_active');
@@ -353,7 +331,6 @@ class Api_Curso extends CI_Controller {
 					'price' => $price,
 					'user_id' => $user_id,
 					'category_id' => $category_id,
-					'subcategory' => $subcategory,
 					'description' => $description,
 					'video_review' => $video_review,
 					'info_short' => $info_short,

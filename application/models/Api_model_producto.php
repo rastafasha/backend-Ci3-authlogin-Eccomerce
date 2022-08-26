@@ -8,7 +8,6 @@ class Api_model_producto extends CI_Model
 		$this->db->select('producto.*');
 		$this->db->from('productos producto');
 		$this->db->join('categories cat', 'cat.id=producto.category_id', 'left');
-        $this->db->join('marcas mar', 'mar.id=producto.marca_id', 'left');
 		$this->db->where('producto.is_active', 1);
 
 		if($featured) {
@@ -27,7 +26,6 @@ class Api_model_producto extends CI_Model
 		$this->db->select('producto.*, cat.category_name');
 		$this->db->from('productos producto');
 		$this->db->join('categories cat', 'cat.id=producto.category_id', 'left');
-		$this->db->join('marcas mar', 'mar.id=producto.marca_id', 'left');
 		$this->db->where('producto.is_active', 1);
 		$this->db->where('producto.id', $id);
 		$query = $this->db->get();

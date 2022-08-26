@@ -33,7 +33,7 @@ class Api_Producto extends CI_Controller {
 		if(!empty($productos)){
 			foreach($productos as $producto){
 
-				$short_desc = strip_tags(character_limiter($producto->description, 70));
+				// $short_desc = strip_tags(character_limiter($producto->description, 70));
 
 				$posts[] = array(
 					'id' => $producto->id,
@@ -42,13 +42,11 @@ class Api_Producto extends CI_Controller {
 					'description' => $producto->description,
 					'video_review' => $producto->video_review,
 					'info_short' => $producto->info_short,
-					'subcategory' => $producto->subcategory,
 					'category_id' => $producto->category_id,
-					'marca_id' => $producto->marca_id,
                     'is_featured' => $producto->is_featured,
                     'is_active' => $producto->is_active,
-                    'short_desc' => html_entity_decode($short_desc),
-					'img' => base_url('media/images/uploads/productos/'.$producto->img),
+                    // 'short_desc' => html_entity_decode($short_desc),
+					'img' => base_url('media/uploads/productos/'.$producto->img),
 					'created_at' => $producto->created_at
 				);
 			}
@@ -69,7 +67,7 @@ class Api_Producto extends CI_Controller {
 		if(!empty($productos)){
 			foreach($productos as $producto){
 				
-				$short_desc = strip_tags(character_limiter($producto->description, 70));
+				// $short_desc = strip_tags(character_limiter($producto->description, 70));
 
 				$posts[] = array(
 					'id' => $producto->id,
@@ -78,13 +76,11 @@ class Api_Producto extends CI_Controller {
 					'description' => $producto->description,
 					'video_review' => $producto->video_review,
 					'info_short' => $producto->info_short,
-					'subcategory' => $producto->subcategory,
 					'category_id' => $producto->category_id,
-					'marca_id' => $producto->marca_id,
                     'is_featured' => $producto->is_featured,
                     'is_active' => $producto->is_active,
-                    'short_desc' => html_entity_decode($short_desc),
-					'img' => base_url('media/images/uploads/productos/'.$producto->img),
+                    // 'short_desc' => html_entity_decode($short_desc),
+					'img' => base_url('media/uploads/productos/'.$producto->img),
 					'created_at' => $producto->created_at
 				);
 			}
@@ -103,19 +99,17 @@ class Api_Producto extends CI_Controller {
 
 		$post = array(
 			'id' => $producto->id,
-					'name' => $producto->name,
-					'price' => $producto->price,
-					'description' => $producto->description,
-					'video_review' => $producto->video_review,
-					'info_short' => $producto->info_short,
-					'subcategory' => $producto->subcategory,
-					'category_id' => $producto->category_id,
-					'marca_id' => $producto->marca_id,
-                    'is_featured' => $producto->is_featured,
-                    'is_active' => $producto->is_active,
-                    'short_desc' => html_entity_decode($short_desc),
-					'img' => base_url('media/images/uploads/productos/'.$producto->img),
-					'created_at' => $producto->created_at
+			'name' => $producto->name,
+			'price' => $producto->price,
+			'description' => $producto->description,
+			'video_review' => $producto->video_review,
+			'info_short' => $producto->info_short,
+			'category_id' => $producto->category_id,
+			'is_featured' => $producto->is_featured,
+			'is_active' => $producto->is_active,
+			// 'short_desc' => html_entity_decode($short_desc),
+			'img' => base_url('media/uploads/productos/'.$producto->img),
+			'created_at' => $producto->created_at
 		);
 		
 		$this->output
@@ -133,7 +127,7 @@ class Api_Producto extends CI_Controller {
 		if(!empty($productos)){
 			foreach($productos as $producto){
 				
-				$short_desc = strip_tags(character_limiter($producto->description, 70));
+				// $short_desc = strip_tags(character_limiter($producto->description, 70));
 
 				$posts[] = array(
 					'id' => $producto->id,
@@ -142,13 +136,11 @@ class Api_Producto extends CI_Controller {
 					'description' => $producto->description,
 					'video_review' => $producto->video_review,
 					'info_short' => $producto->info_short,
-					'subcategory' => $producto->subcategory,
 					'category_id' => $producto->category_id,
-					'marca_id' => $producto->marca_id,
                     'is_featured' => $producto->is_featured,
                     'is_active' => $producto->is_active,
-                    'short_desc' => html_entity_decode($short_desc),
-					'img' => base_url('media/images/uploads/productos/'.$producto->img),
+                    // 'short_desc' => html_entity_decode($short_desc),
+					'img' => base_url('media/uploads/productos/'.$producto->img),
 					'created_at' => $producto->created_at
 				);
 			}
@@ -177,13 +169,11 @@ class Api_Producto extends CI_Controller {
 					'description' => $producto->description,
 					'video_review' => $producto->video_review,
 					'info_short' => $producto->info_short,
-					'subcategory' => $producto->subcategory,
 					'category_id' => $producto->category_id,
-					'marca_id' => $producto->marca_id,
                     'is_featured' => $producto->is_featured,
                     'is_active' => $producto->is_active,
-                    'short_desc' => html_entity_decode($short_desc),
-					'img' => base_url('media/images/uploads/productos/'.$producto->img),
+                    // 'short_desc' => html_entity_decode($short_desc),
+					'img' => base_url('media/uploads/productos/'.$producto->img),
 					'created_at' => $producto->created_at
 				);
 			}
@@ -212,13 +202,11 @@ class Api_Producto extends CI_Controller {
 					'description' => $producto->description,
 					'video_review' => $producto->video_review,
 					'info_short' => $producto->info_short,
-					'subcategory' => $producto->subcategory,
 					'category_id' => $producto->category_id,
-					'marca_id' => $producto->marca_id,
                     'is_featured' => $producto->is_featured,
                     'is_active' => $producto->is_active,
-                    'short_desc' => html_entity_decode($short_desc),
-					'img' => base_url('media/images/uploads/productos/'.$producto->img)
+                    // 'short_desc' => html_entity_decode($short_desc),
+					'img' => base_url('media/uploads/productos/'.$producto->img)
 			);
 			
 
@@ -237,14 +225,13 @@ class Api_Producto extends CI_Controller {
 
 		if($token) {
 
+			$user_id = $this->input->post('user_id');
 			$name = $this->input->post('name');
 			$price = $this->input->post('price');
 			$description = $this->input->post('description');
 			$video_review = $this->input->post('video_review');
 			$info_short = $this->input->post('info_short');
-			$subcategory = $this->input->post('subcategory');
 			$category_id = $this->input->post('category_id');
-			$marca_id = $this->input->post('marca_id');
 			$is_featured = $this->input->post('is_featured');
 			$is_active = $this->input->post('is_active');
 
@@ -280,8 +267,6 @@ class Api_Producto extends CI_Controller {
 					'price' => $price,
 					'user_id' => $user_id,
 					'category_id' => $category_id,
-					'subcategory' => $subcategory,
-					'marca_id' => $marca_id,
 					'description' => $description,
 					'video_review' => $video_review,
 					'info_short' => $info_short,
@@ -317,13 +302,12 @@ class Api_Producto extends CI_Controller {
 			$filename = $producto->img;
 
 			$name = $this->input->post('name');
+			$user_id = $this->input->post('user_id');
 			$price = $this->input->post('price');
 			$description = $this->input->post('description');
 			$video_review = $this->input->post('video_review');
 			$info_short = $this->input->post('info_short');
-			$subcategory = $this->input->post('subcategory');
 			$category_id = $this->input->post('category_id');
-			$marca_id = $this->input->post('marca_id');
 			$is_featured = $this->input->post('is_featured');
 			$is_active = $this->input->post('is_active');
 
@@ -363,8 +347,6 @@ class Api_Producto extends CI_Controller {
 					'price' => $price,
 					'user_id' => $user_id,
 					'category_id' => $category_id,
-					'subcategory' => $subcategory,
-					'marca_id' => $marca_id,
 					'description' => $description,
 					'video_review' => $video_review,
 					'info_short' => $info_short,

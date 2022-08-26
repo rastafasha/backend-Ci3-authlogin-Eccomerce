@@ -3,11 +3,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Api_model_curso extends CI_Model 
 {
-	public function get_cursos($featured, $recentpost)
+	public function get_cursos()
 	{
 		$this->db->select('curso.*');
 		$this->db->from('cursos curso');
-		$this->db->join('categories cat', 'cat.id=curso.category_id', 'left');
+		$this->db->order_by('curso.created_at', 'desc');
+		$query = $this->db->get();
+		return $query->result();
+	}
+	public function get_cursosr($featured, $recentpost)
+	{
+		$this->db->select('curso.*');
+		$this->db->from('cursos curso');
 		$this->db->where('curso.is_active', 1);
 
 		if($featured) {
@@ -36,9 +43,8 @@ class Api_model_curso extends CI_Model
 
 	public function get_admin_cursos()
 	{
-		$this->db->select('curso.*, u.first_name, u.last_name');
+		$this->db->select('curso.*');
 		$this->db->from('cursos curso');
-		$this->db->join('users u', 'u.id=curso.user_id');
 		$this->db->order_by('curso.created_at', 'desc');
 		$query = $this->db->get();
 		return $query->result();

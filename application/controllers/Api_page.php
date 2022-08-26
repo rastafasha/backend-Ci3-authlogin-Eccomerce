@@ -13,7 +13,7 @@ class Api_Page extends CI_Controller {
 		$this->load->model('AuthModel');
 		$this->load->helper('verifyAuthToken');
 
-        header("Access-Control-Allow-Origin: *");
+		header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json");
         header("Access-Control-Request-Methods: GET, PUT, POST, DELETE, OPTIONS");
         header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
@@ -32,8 +32,6 @@ class Api_Page extends CI_Controller {
 		if(!empty($pages)){
 			foreach($pages as $page){
 
-				$short_desc = strip_tags(character_limiter($page->description, 70));
-				$author = $page->first_name.' '.$page->last_name;
 
 				$posts[] = array(
 					'id' => $page->id,
@@ -41,8 +39,8 @@ class Api_Page extends CI_Controller {
 					'category_id' => $page->category_id,
 					'description' => $page->description,
 					'video_review' => $page->video_review,
-					'short_desc' => html_entity_decode($short_desc),
-					'author' => $author,
+					'is_active' => $page->is_active,
+					'is_featured' => $page->is_featured,
 					'img' => base_url('media/uploads/pages/'.$page->img),
 					'created_at' => $page->created_at
 				);
@@ -64,8 +62,8 @@ class Api_Page extends CI_Controller {
 		if(!empty($pages)){
 			foreach($pages as $page){
 				
-				$short_desc = strip_tags(character_limiter($page->description, 70));
-				$author = $page->first_name.' '.$page->last_name;
+				// $short_desc = strip_tags(character_limiter($page->description, 70));
+				// $author = $page->first_name.' '.$page->last_name;
 
 				$posts[] = array(
 					'id' => $page->id,
@@ -73,8 +71,10 @@ class Api_Page extends CI_Controller {
 					'category_id' => $page->category_id,
 					'description' => $page->description,
 					'video_review' => $page->video_review,
-					'short_desc' => html_entity_decode($short_desc),
-					'author' => $author,
+					'is_active' => $page->is_active,
+					'is_featured' => $page->is_featured,
+					// 'short_desc' => html_entity_decode($short_desc),
+					// 'author' => $author,
 					'img' => base_url('media/uploads/pages/'.$page->img),
 					'created_at' => $page->created_at
 				);
@@ -89,10 +89,8 @@ class Api_Page extends CI_Controller {
 	public function page($id)
 	{
 		
-		
 		$page = $this->api_model_page->get_page($id);
 
-		$author = $page->first_name.' '.$page->last_name;
 
 		$post = array(
 			'id' => $page->id,
@@ -100,8 +98,8 @@ class Api_Page extends CI_Controller {
 					'category_id' => $page->category_id,
 					'description' => $page->description,
 					'video_review' => $page->video_review,
-					'short_desc' => html_entity_decode($short_desc),
-					'author' => $author,
+					'is_active' => $page->is_active,
+					'is_featured' => $page->is_featured,
 					'img' => base_url('media/uploads/pages/'.$page->img),
 					'created_at' => $page->created_at
 		);
@@ -121,8 +119,8 @@ class Api_Page extends CI_Controller {
 		if(!empty($pages)){
 			foreach($pages as $page){
 				
-				$short_desc = strip_tags(character_limiter($page->description, 70));
-				$author = $page->first_name.' '.$page->last_name;
+				// $short_desc = strip_tags(character_limiter($page->description, 70));
+				// $author = $page->first_name.' '.$page->last_name;
 
 				$posts[] = array(
 					'id' => $page->id,
@@ -130,8 +128,10 @@ class Api_Page extends CI_Controller {
 					'category_id' => $page->category_id,
 					'description' => $page->description,
 					'video_review' => $page->video_review,
-					'short_desc' => html_entity_decode($short_desc),
-					'author' => $author,
+					'is_active' => $page->is_active,
+					'is_featured' => $page->is_featured,
+					// 'short_desc' => html_entity_decode($short_desc),
+					// 'author' => $author,
 					'img' => base_url('media/uploads/pages/'.$page->img),
 					'created_at' => $page->created_at
 				);
@@ -160,8 +160,8 @@ class Api_Page extends CI_Controller {
 					'category_id' => $page->category_id,
 					'description' => $page->description,
 					'video_review' => $page->video_review,
-					'short_desc' => html_entity_decode($short_desc),
-					'author' => $author,
+					'is_active' => $page->is_active,
+					'is_featured' => $page->is_featured,
 					'img' => base_url('media/uploads/pages/'.$page->img),
 					'created_at' => $page->created_at
 				);
@@ -190,8 +190,9 @@ class Api_Page extends CI_Controller {
 				'category_id' => $page->category_id,
 				'description' => $page->description,
 				'video_review' => $page->video_review,
-                'img' => base_url('media/uploads/pages/'.$page->img),
+				'is_active' => $page->is_active,
 				'is_featured' => $page->is_featured,
+                'img' => base_url('media/uploads/pages/'.$page->img),
 				'is_active' => $page->is_active
 			);
 			
@@ -212,6 +213,8 @@ class Api_Page extends CI_Controller {
 		if($token) {
 
 			$title = $this->input->post('title');
+			$user_id = $this->input->post('user_id');
+			$category_id = $this->input->post('category_id');
 			$description = $this->input->post('description');
 			$video_review = $this->input->post('video_review');
 			$category_id = $this->input->post('category_id');
@@ -251,9 +254,9 @@ class Api_Page extends CI_Controller {
 					'category_id' => $category_id,
 					'description' => $description,
 					'video_review' => $video_review,
+					'is_active' => $is_active,
 					'img' => $filename,
 					'is_featured' => $is_featured,
-					'is_active' => $is_active,
 					'created_at' => date('Y-m-d H:i:s', time())
 				);
 
@@ -283,6 +286,8 @@ class Api_Page extends CI_Controller {
 			$filename = $page->img;
 
 			$title = $this->input->post('title');
+			$user_id = $this->input->post('user_id');
+			$category_id = $this->input->post('category_id');
 			$description = $this->input->post('description');
 			$video_review = $this->input->post('video_review');
 			$category_id = $this->input->post('category_id');
@@ -320,7 +325,7 @@ class Api_Page extends CI_Controller {
 			}
 
 			if( ! $isUploadError) {
-	        	$blogData = array(
+	        	$pageData = array(
 					'title' => $title,
 					'user_id' => $user_id,
 					'category_id' => $category_id,

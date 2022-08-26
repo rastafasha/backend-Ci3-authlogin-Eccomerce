@@ -34,9 +34,8 @@ class Api_model_marca extends CI_Model
 
 	public function get_admin_marcas()
 	{
-		$this->db->select('marca.*, u.first_name, u.last_name');
+		$this->db->select('marca.*');
 		$this->db->from('marcas marca');
-		$this->db->join('users u', 'u.id=marca.user_id');
 		$this->db->order_by('marca.created_at', 'desc');
 		$query = $this->db->get();
 		return $query->result();
@@ -44,9 +43,8 @@ class Api_model_marca extends CI_Model
 
 	public function get_admin_marca($id)
 	{
-		$this->db->select('marca.*, u.first_name, u.last_name');
+		$this->db->select('marca.*');
 		$this->db->from('marcas marca');
-		$this->db->join('users u', 'u.id=marca.user_id');
 		$this->db->where('marca.id', $id);
 		$query = $this->db->get();
 		return $query->row();

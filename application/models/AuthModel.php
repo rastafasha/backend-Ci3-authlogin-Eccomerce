@@ -2,12 +2,12 @@
 
 class AuthModel extends CI_Model{
 
-    function check_login($email, $password, $id){
+    function check_login($email, $password){
 
         $this->db->select('*');
         $this->db->from('users user');
         $this->db->where('email', $email);
-        $this->db->where('user.user_id', $id);
+        // $this->db->where('user.user_id', $id);
         $this->db->where('password', $password);
 
         $query = $this->db->get();
@@ -27,6 +27,17 @@ class AuthModel extends CI_Model{
 
         return $query->row();
     }
+
+    public function get_user($id)
+	{
+		$this->db->select('user.*');
+		$this->db->from('users user');
+		$this->db->where('user.user_id', $id);
+		$query = $this->db->get();
+		return $query->row();
+	}
+
+
 
     
 
