@@ -39,6 +39,7 @@ class Api_Producto extends CI_Controller {
 					'id' => $producto->id,
 					'name' => $producto->name,
 					'price' => $producto->price,
+					'cod_prod' => $producto->cod_prod,
 					'description' => $producto->description,
 					'video_review' => $producto->video_review,
 					'info_short' => $producto->info_short,
@@ -73,6 +74,7 @@ class Api_Producto extends CI_Controller {
 					'id' => $producto->id,
 					'name' => $producto->name,
 					'price' => $producto->price,
+					'cod_prod' => $producto->cod_prod,
 					'description' => $producto->description,
 					'video_review' => $producto->video_review,
 					'info_short' => $producto->info_short,
@@ -91,16 +93,17 @@ class Api_Producto extends CI_Controller {
 			->set_output(json_encode($posts));
 	}
 
-	public function producto($id)
+	public function producto($cod_prod)
 	{
 		
 		
-		$producto = $this->api_model_producto->get_producto($id);
+		$producto = $this->api_model_producto->get_producto($cod_prod);
 
 		$post = array(
 			'id' => $producto->id,
 			'name' => $producto->name,
 			'price' => $producto->price,
+			'cod_prod' => $producto->cod_prod,
 			'description' => $producto->description,
 			'video_review' => $producto->video_review,
 			'info_short' => $producto->info_short,
@@ -133,6 +136,7 @@ class Api_Producto extends CI_Controller {
 					'id' => $producto->id,
 					'name' => $producto->name,
 					'price' => $producto->price,
+					'cod_prod' => $producto->cod_prod,
 					'description' => $producto->description,
 					'video_review' => $producto->video_review,
 					'info_short' => $producto->info_short,
@@ -165,7 +169,7 @@ class Api_Producto extends CI_Controller {
 				$posts[] = array(
 					'id' => $producto->id,
 					'name' => $producto->name,
-					'price' => $producto->price,
+					'cod_prod' => $producto->cod_prod,
 					'description' => $producto->description,
 					'video_review' => $producto->video_review,
 					'info_short' => $producto->info_short,
@@ -199,6 +203,7 @@ class Api_Producto extends CI_Controller {
 				'id' => $producto->id,
 					'name' => $producto->name,
 					'price' => $producto->price,
+					'cod_prod' => $producto->cod_prod,
 					'description' => $producto->description,
 					'video_review' => $producto->video_review,
 					'info_short' => $producto->info_short,
@@ -227,7 +232,7 @@ class Api_Producto extends CI_Controller {
 
 			$user_id = $this->input->post('user_id');
 			$name = $this->input->post('name');
-			$price = $this->input->post('price');
+			$cod_prod = $this->input->post('cod_prod');
 			$description = $this->input->post('description');
 			$video_review = $this->input->post('video_review');
 			$info_short = $this->input->post('info_short');
@@ -266,6 +271,7 @@ class Api_Producto extends CI_Controller {
 					'name' => $name,
 					'price' => $price,
 					'user_id' => $user_id,
+					'cod_prod' => $cod_prod,
 					'category_id' => $category_id,
 					'description' => $description,
 					'video_review' => $video_review,
@@ -304,6 +310,7 @@ class Api_Producto extends CI_Controller {
 			$name = $this->input->post('name');
 			$user_id = $this->input->post('user_id');
 			$price = $this->input->post('price');
+			$cod_prod = $this->input->post('cod_prod');
 			$description = $this->input->post('description');
 			$video_review = $this->input->post('video_review');
 			$info_short = $this->input->post('info_short');
@@ -346,6 +353,7 @@ class Api_Producto extends CI_Controller {
 					'name' => $name,
 					'price' => $price,
 					'user_id' => $user_id,
+					'cod_prod' => $cod_prod,
 					'category_id' => $category_id,
 					'description' => $description,
 					'video_review' => $video_review,

@@ -23,6 +23,7 @@ class AuthModel extends CI_Model{
     function renewToken(){
         $this->db->select('user.*');
 		$this->db->from('users user');
+        // $this->db->where('user.id', $id);
         $query = $this->db->get();
 
         return $query->row();

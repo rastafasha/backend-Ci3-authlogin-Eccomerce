@@ -36,7 +36,7 @@ CREATE TABLE `blogs` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+SHOW TABLES;
 -- --------------------------------------------------------
 
 --
@@ -49,7 +49,7 @@ CREATE TABLE `categories` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+SHOW TABLES;
 -- --------------------------------------------------------
 
 --
@@ -77,7 +77,7 @@ CREATE TABLE `configuracions` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+SHOW TABLES;
 -- --------------------------------------------------------
 
 --
@@ -95,7 +95,7 @@ CREATE TABLE `contacts` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+SHOW TABLES;
 -- --------------------------------------------------------
 
 --
@@ -118,7 +118,7 @@ CREATE TABLE `cursos` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+SHOW TABLES;
 -- --------------------------------------------------------
 
 --
@@ -134,7 +134,7 @@ CREATE TABLE `galerias` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+SHOW TABLES;
 -- --------------------------------------------------------
 
 --
@@ -149,7 +149,7 @@ CREATE TABLE `galeryproducts` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+SHOW TABLES;
 -- --------------------------------------------------------
 
 --
@@ -163,7 +163,7 @@ CREATE TABLE `marcas` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+SHOW TABLES;
 -- --------------------------------------------------------
 
 --
@@ -183,7 +183,7 @@ CREATE TABLE `pages` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+SHOW TABLES;
 -- --------------------------------------------------------
 
 --
@@ -207,7 +207,7 @@ CREATE TABLE `productos` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+SHOW TABLES;
 -- --------------------------------------------------------
 
 --
@@ -229,7 +229,7 @@ CREATE TABLE `promocions` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+SHOW TABLES;
 -- --------------------------------------------------------
 
 --
@@ -251,7 +251,7 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`id`, `role_name`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'ADMIN', '1', '2022-08-21 03:59:53', '2022-08-21 03:59:53'),
 (2, 'USER', '1', '2022-08-21 03:59:53', '2022-08-21 03:59:53');
-
+SHOW TABLES;
 -- --------------------------------------------------------
 
 --
@@ -274,7 +274,7 @@ CREATE TABLE `sliders` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
   
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+SHOW TABLES;
 -- --------------------------------------------------------
 
 --
@@ -294,4 +294,215 @@ CREATE TABLE `users` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SHOW TABLES;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `carritos`
+--
+
+CREATE TABLE `carritos` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `productPrice` varchar(255) DEFAULT NULL,
+  `category` varchar(255) DEFAULT NULL,
+  `productCode` varchar(255) DEFAULT NULL,
+  `productId` varchar(255) DEFAULT NULL,
+  `productName` text NOT NULL,
+  `quantity` text NOT NULL,
+  `description` text NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SHOW TABLES;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ventas`
+--
+
+CREATE TABLE `ventas` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `total_pagado` varchar(255) DEFAULT NULL,
+  `info_cupon` varchar(255) DEFAULT NULL,
+  `metodo_pago` varchar(255) DEFAULT NULL,
+  `precio_envio` varchar(255) DEFAULT NULL,
+  `tipo_envio` varchar(255) DEFAULT NULL,
+  `tiempo_estimado` varchar(255) DEFAULT NULL,
+  `direccion` text NOT NULL,
+  `referencia` text NOT NULL,
+  `destinatario` text NOT NULL,
+  `tracking_number` varchar(255) DEFAULT NULL,
+  `idtransaccion` varchar(255) DEFAULT NULL,
+  `pais` varchar(255) DEFAULT NULL,
+  `ciudad` varchar(255) DEFAULT NULL,
+  `zip` varchar(255) DEFAULT NULL,
+  `day` varchar(255) DEFAULT NULL,
+  `month` varchar(255) DEFAULT NULL,
+  `year` varchar(255) DEFAULT NULL,
+  `estado` varchar(255) DEFAULT NULL,
+  
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SHOW TABLES;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `direccions`
+--
+
+CREATE TABLE `direccions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `direccion` text NOT NULL,
+  `referencia` text NOT NULL,
+  `telefono` text NOT NULL,
+  `pais` varchar(255) DEFAULT NULL,
+  `ciudad` varchar(255) DEFAULT NULL,
+  `zip` varchar(255) DEFAULT NULL,
+  `map` varchar(255) DEFAULT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SHOW TABLES;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coupons`
+--
+
+CREATE TABLE `coupons` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `tipo` varchar(255) DEFAULT NULL,
+  `descuento` varchar(255) DEFAULT NULL,
+  `codigo` text NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  FOREIGN KEY (category_id) REFERENCES categories(id) ON UPDATE CASCADE,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SHOW TABLES;
+
+-- --------------------------------------------------------
+
+
+--
+-- Table structure for table `comentarios`
+--
+
+CREATE TABLE `comentarios` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `producto_id` int(11) NOT NULL,
+  `curso_id` int(11) NOT NULL,
+  `comentario` text NOT NULL,
+  `pros` text NOT NULL,
+  `cons` text NOT NULL,
+  `estrellas` varchar(11) DEFAULT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  FOREIGN KEY (producto_id) REFERENCES productos(id) ON UPDATE CASCADE,
+  FOREIGN KEY (curso_id) REFERENCES cursos(id) ON UPDATE CASCADE,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SHOW TABLES;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `likescomments`
+--
+
+CREATE TABLE `likescomments` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `comentario_id` int(11) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  FOREIGN KEY (comentario_id) REFERENCES comentarios(id) ON UPDATE CASCADE,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SHOW TABLES;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dislikescomments`
+--
+
+CREATE TABLE `dislikescomments` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `comentario_id` int(11) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  FOREIGN KEY (comentario_id) REFERENCES comentarios(id) ON UPDATE CASCADE,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SHOW TABLES;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cancelacions`
+--
+
+CREATE TABLE `cancelacions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `venta_id` int(11) NOT NULL,
+  `comentario` text NOT NULL,
+  `pros` text NOT NULL,
+  `cons` text NOT NULL,
+  `estrellas` varchar(11) DEFAULT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  FOREIGN KEY (venta_id) REFERENCES ventas(id) ON UPDATE CASCADE,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SHOW TABLES;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `videocursos`
+--
+
+CREATE TABLE `videocursos` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `curso_id` int(11) NOT NULL,
+  `url` text NOT NULL,
+  `estado` varchar(11) DEFAULT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  FOREIGN KEY (curso_id) REFERENCES cursos(id) ON UPDATE CASCADE,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SHOW TABLES;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `newsletters`
+--
+
+CREATE TABLE `newsletters` (
+  `id` int(11) NOT NULL,
+  `email` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SHOW TABLES;
+
+-- --------------------------------------------------------

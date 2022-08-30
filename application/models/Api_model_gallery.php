@@ -5,12 +5,15 @@ class Api_model_gallery extends CI_Model
 {
 	
 
-	public function get_galleries($featured, $recentpost)
+	public function get_gallerys($featured, $recentpost)
 	{
 		$this->db->select('galeria.*');
 		$this->db->from('galerias galeria');
-		$this->db->join('categories cat', 'cat.id=galeria.category_id', 'left');
+		$this->db->join('categories category', 'category.id=galeria.category_id', 'left');
 
+		if($featured) {
+			$this->db->where('galeria.is_featured', 1);
+		}
 		if($recentpost){
 			$this->db->order_by('galeria.created_at', 'desc');
 			$this->db->limit($recentpost);

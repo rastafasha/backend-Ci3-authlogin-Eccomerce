@@ -37,6 +37,8 @@ class Api_Blog extends CI_Controller {
 					'category_id' => $blog->category_id,
 					'description' => $blog->description,
 					'video_review' => $blog->video_review,
+					'is_featured' => $blog->is_featured,
+					'is_active' => $blog->is_active,
 					// 'short_desc' => html_entity_decode($short_desc),
 					// 'author' => $author,
 					'img' => base_url('media/uploads/blogs/'.$blog->img),
@@ -59,17 +61,14 @@ class Api_Blog extends CI_Controller {
 		if(!empty($blogs)){
 			foreach($blogs as $blog){
 				
-				$short_desc = strip_tags(character_limiter($blog->description, 70));
-				$author = $blog->first_name.' '.$blog->last_name;
-
 				$posts[] = array(
 					'id' => $blog->id,
 					'title' => $blog->title,
 					'category_id' => $blog->category_id,
 					'description' => $blog->description,
 					'video_review' => $blog->video_review,
-					'short_desc' => html_entity_decode($short_desc),
-					'author' => $author,
+					'is_featured' => $blog->is_featured,
+					'is_active' => $blog->is_active,
 					'img' => base_url('media/uploads/blogs/'.$blog->img),
 					'created_at' => $blog->created_at
 				);
@@ -95,6 +94,8 @@ class Api_Blog extends CI_Controller {
 					'category_id' => $blog->category_id,
 					'description' => $blog->description,
 					'video_review' => $blog->video_review,
+					'is_featured' => $blog->is_featured,
+					'is_active' => $blog->is_active,
 					// 'short_desc' => html_entity_decode($short_desc),
 					// 'author' => $author,
 					'img' => base_url('media/uploads/blogs/'.$blog->img),
@@ -117,6 +118,8 @@ class Api_Blog extends CI_Controller {
 					'title' => $blog->title,
 					'category_id' => $blog->category_id,
 					'video_review' => $blog->video_review,
+					'is_featured' => $blog->is_featured,
+					'is_active' => $blog->is_active,
 					'img' => base_url('media/uploads/blogs/'.$blog->img),
 					'created_at' => $blog->created_at
 		);
@@ -135,17 +138,15 @@ class Api_Blog extends CI_Controller {
 		if(!empty($blogs)){
 			foreach($blogs as $blog){
 				
-				$short_desc = strip_tags(character_limiter($blog->description, 70));
-				$author = $blog->first_name.' '.$blog->last_name;
-
+				
 				$posts[] = array(
 					'id' => $blog->id,
 					'title' => $blog->title,
 					'category_id' => $blog->category_id,
 					'description' => $blog->description,
 					'video_review' => $blog->video_review,
-					'short_desc' => html_entity_decode($short_desc),
-					'author' => $author,
+					'is_featured' => $blog->is_featured,
+					'is_active' => $blog->is_active,
 					'img' => base_url('media/uploads/blogs/'.$blog->img),
 					'created_at' => $blog->created_at
 				);
@@ -174,7 +175,8 @@ class Api_Blog extends CI_Controller {
 					'category_id' => $blog->category_id,
 					'description' => $blog->description,
 					'video_review' => $blog->video_review,
-					
+					'is_featured' => $blog->is_featured,
+					'is_active' => $blog->is_active,
 					'img' => base_url('media/uploads/blogs/'.$blog->img),
 					'created_at' => $blog->created_at
 				);
@@ -203,6 +205,8 @@ class Api_Blog extends CI_Controller {
 				'category_id' => $blog->category_id,
 				'description' => $blog->description,
 				'video_review' => $blog->video_review,
+				'is_featured' => $blog->is_featured,
+					'is_active' => $blog->is_active,
                 'img' => base_url('media/uploads/blogs/'.$blog->img),
 				'is_featured' => $blog->is_featured,
 				'is_active' => $blog->is_active

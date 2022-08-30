@@ -21,13 +21,13 @@ class Api_model_producto extends CI_Model
 		return $query->result();
 	}
 
-	public function get_producto($id)
+	public function get_producto($cod_prod)
 	{
 		$this->db->select('producto.*, cat.category_name');
 		$this->db->from('productos producto');
 		$this->db->join('categories cat', 'cat.id=producto.category_id', 'left');
 		$this->db->where('producto.is_active', 1);
-		$this->db->where('producto.id', $id);
+		$this->db->where('producto.cod_prod', $cod_prod);
 		$query = $this->db->get();
 		return $query->row();
 	}

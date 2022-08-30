@@ -53,6 +53,7 @@ class AuthController extends CI_Controller {
             $last_name = $this->input->post('last_name'); 
             $email = $this->input->post('email'); 
             $role_id = $this->input->post('role_id'); 
+            $terminos = $this->input->post('terminos'); 
             $userData = array(
                 'username'=>$username,
                 'password'=>$password,
@@ -60,6 +61,7 @@ class AuthController extends CI_Controller {
                 'last_name'=>$last_name,
                 'email'=>$email,
                 'role_id'=>$role_id,
+                'terminos'=>$terminos,
                 'created_at'=>date('Y-m-d H:i:s', time())
             );
 
@@ -70,6 +72,46 @@ class AuthController extends CI_Controller {
                 echo 'User Registered fail';
             }
         }
+    }
+
+    public function renewToken(){
+        $header = $this->input->get_request_header('Authorization');
+        $splitToken = explode(" ", $header);
+        $token =  $splitToken[0];
+
+        $jwt = new JWT(); 
+        $JwtSecretKey = "myloginSecret";
+    
+            try {
+                $token = verifyAuthToken($token);
+                if($token){
+
+
+                    
+                    $user_id = $this->AuthModel->renewToken();
+
+                    $token = $jwt->encode($user_id, $JwtSecretKey, 'HS256');
+                    $tokenArray = array(
+                        'ok' => true,
+                        'user' => $user_id,
+                        'token' => $token,
+                    );
+
+                    // echo json_encode($user);
+                    echo json_encode($tokenArray);
+                }
+                    
+            }
+            catch(Exception $e) {
+                $error = array(
+                    "status"=>401,
+                    "message"=>"Invalid Token provided",
+                    "sucess"=>false
+                    );
+    
+                echo json_encode($error);
+            }
+
     }
 
     public function get_roles(){
@@ -180,45 +222,7 @@ class AuthController extends CI_Controller {
 	}
 
 
-    public function renewToken(){
-        $header = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $header);
-        $token =  $splitToken[0];
-
-        $jwt = new JWT(); 
-        $JwtSecretKey = "myloginSecret";
-    
-            try {
-                $token = verifyAuthToken($token);
-                if($token){
-
-
-                    
-                    $user_id = $this->AuthModel->renewToken();
-
-                    $token = $jwt->encode($user_id, $JwtSecretKey, 'HS256');
-                    $tokenArray = array(
-                        'ok' => true,
-                        'user' => $user_id,
-                        'token' => $token,
-                    );
-
-                    // echo json_encode($user);
-                    echo json_encode($tokenArray);
-                }
-                    
-            }
-            catch(Exception $e) {
-                $error = array(
-                    "status"=>401,
-                    "message"=>"Invalid Token provided",
-                    "sucess"=>false
-                    );
-    
-                echo json_encode($error);
-            }
-
-    }
+   
 
     
 

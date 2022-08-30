@@ -7,7 +7,7 @@ class Api_model_blog extends CI_Model
 	{
 		$this->db->select('blog.*');
 		$this->db->from('blogs blog');
-		// $this->db->where('blog.is_active', 1);
+		$this->db->where('blog.is_active', 1);
 
 		if($featured) {
 			$this->db->where('blog.is_featured', 1);

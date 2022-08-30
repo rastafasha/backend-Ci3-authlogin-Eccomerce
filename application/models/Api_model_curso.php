@@ -7,7 +7,7 @@ class Api_model_curso extends CI_Model
 	{
 		$this->db->select('curso.*');
 		$this->db->from('cursos curso');
-		$this->db->order_by('curso.created_at', 'desc');
+		$this->db->order_by('curso.created_at', 'asc');
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -15,6 +15,7 @@ class Api_model_curso extends CI_Model
 	{
 		$this->db->select('curso.*');
 		$this->db->from('cursos curso');
+		$this->db->join('categories cat', 'cat.id=curso.category_id', 'left');
 		$this->db->where('curso.is_active', 1);
 
 		if($featured) {
@@ -28,13 +29,13 @@ class Api_model_curso extends CI_Model
 		return $query->result();
 	}
 
-	public function get_curso($id)
+	public function get_curso($cod_prod)
 	{
-		$this->db->select('curso.*, cat.category_name');
+		$this->db->select('curso.*, u.first_name, u.last_name');
 		$this->db->from('cursos curso');
+		$this->db->join('users u', 'u.id=curso.user_id');
 		$this->db->join('categories cat', 'cat.id=curso.category_id', 'left');
-		$this->db->where('curso.is_active', 1);
-		$this->db->where('curso.id', $id);
+		$this->db->where('curso.cod_prod', $cod_prod);
 		$query = $this->db->get();
 		return $query->row();
 	}

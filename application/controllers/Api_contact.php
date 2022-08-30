@@ -150,5 +150,46 @@ class Api_Contact extends CI_Controller {
 		$this->email->send();
 	}
 
+
+	public function responderContact()
+	{
+		header("Access-Control-Allow-Origin: *");
+		header("Access-Control-Request-Headers: GET,POST,OPTIONS,DELETE,PUT");
+		header('Access-Control-Allow-Headers: Accept,Accept-Language,Content-Language,Content-Type');
+
+		$formdata = json_decode(file_get_contents('php://input'), true);
+
+		if( ! empty($formdata)) {
+
+			$name = $formdata['name'];
+			$email = $formdata['email'];
+			$phone = $formdata['phone'];
+			$tema = $formdata['tema'];
+			$message = $formdata['message'];
+
+			$contactData = array(
+				'name' => $name,
+				'email' => $email,
+				'phone' => $phone,
+				'message' => $message,
+				'tema' => $tema,
+				'created_at' => date('Y-m-d H:i:s', time())
+			);
+			
+			$id = $this->api_model_contact->insert_contact($contactData);
+
+			$this->sendemail($contactData);
+			
+			$response = array('id' => $id);
+		}
+		else {
+			$response = array('id' => '');
+		}
+		
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($response));
+	}
+
 	
 }
