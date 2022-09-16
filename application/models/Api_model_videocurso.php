@@ -7,7 +7,6 @@ class Api_model_videocurso extends CI_Model
 	{
 		$this->db->select('videocurso.*');
 		$this->db->from('videocursos videocurso');
-		$this->db->where('videocurso.is_active', 1);
 
 		if($featured) {
 			$this->db->where('videocurso.is_featured', 1);
@@ -25,7 +24,6 @@ class Api_model_videocurso extends CI_Model
 		$this->db->select('videocurso.*');
 		$this->db->from('videocursos videocurso');
 		$this->db->join('cursos curso', 'curso.id=videocurso.curso_id', 'left');
-		$this->db->join('users user', 'user.id=videocurso.user_id', 'left');
 		$this->db->where('videocurso.id', $id);
 		$query = $this->db->get();
 		return $query->row();
@@ -34,10 +32,9 @@ class Api_model_videocurso extends CI_Model
 
 	public function get_admin_videocursos()
 	{
-		$this->db->select('videocurso.*, u.first_name, u.last_name');
+		$this->db->select('videocurso.*');
 		$this->db->from('videocursos videocurso');
 		$this->db->join('cursos curso', 'curso.id=videocurso.curso_id', 'left');
-		$this->db->join('users user', 'user.id=videocurso.user_id', 'left');
 		$this->db->order_by('videocurso.created_at', 'desc');
 		$query = $this->db->get();
 		return $query->result();
@@ -45,10 +42,20 @@ class Api_model_videocurso extends CI_Model
 
 	public function get_admin_videocurso($id)
 	{
-		$this->db->select('videocurso.*, u.first_name, u.last_name');
+		$this->db->select('videocurso.*');
 		$this->db->from('videocursos videocurso');
-		$this->db->join('users u', 'u.id=videocurso.user_id');
+		$this->db->join('cursos c', 'c.id=videocurso.curso_id');
 		$this->db->where('videocurso.id', $id);
+		$query = $this->db->get();
+		return $query->row();
+	}
+	public function get_admin_videosbycursos($curso_id)
+	{
+		$this->db->select('videocurso.*');
+		$this->db->from('videocursos videocurso');
+		$this->db->join('cursos c', 'c.id=videocurso.curso_id');
+		// $this->db->where('videocurso.id', $id);
+		$this->db->where('videocurso.curso_id', $curso_id);
 		$query = $this->db->get();
 		return $query->row();
 	}

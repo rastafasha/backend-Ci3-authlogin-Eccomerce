@@ -12,6 +12,7 @@ class Api_Blog extends CI_Controller {
 		
 		$this->load->model('AuthModel');
 		$this->load->helper('verifyAuthToken');
+		
 		header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json");
         header("Access-Control-Request-Methods: GET, PUT, POST, DELETE, OPTIONS");
@@ -39,6 +40,7 @@ class Api_Blog extends CI_Controller {
 					'video_review' => $blog->video_review,
 					'is_featured' => $blog->is_featured,
 					'is_active' => $blog->is_active,
+					'imgUrl' => $blog->imgUrl,
 					// 'short_desc' => html_entity_decode($short_desc),
 					// 'author' => $author,
 					'img' => base_url('media/uploads/blogs/'.$blog->img),
@@ -69,6 +71,7 @@ class Api_Blog extends CI_Controller {
 					'video_review' => $blog->video_review,
 					'is_featured' => $blog->is_featured,
 					'is_active' => $blog->is_active,
+					'imgUrl' => $blog->imgUrl,
 					'img' => base_url('media/uploads/blogs/'.$blog->img),
 					'created_at' => $blog->created_at
 				);
@@ -108,25 +111,30 @@ class Api_Blog extends CI_Controller {
 	}
 
 
-	public function blogbyCategory($id)
+	public function blogbyCategory($category_id)
 	{
 		
-		$blog = $this->api_model_blog->getBlogCategory($id);
+		$blogs = $this->api_model_blog->getBlogCategory($category_id);
 
-
-		$post = array(
-					'title' => $blog->title,
-					'category_id' => $blog->category_id,
-					'video_review' => $blog->video_review,
-					'is_featured' => $blog->is_featured,
-					'is_active' => $blog->is_active,
-					'img' => base_url('media/uploads/blogs/'.$blog->img),
-					'created_at' => $blog->created_at
-		);
+		foreach($blogs as $blog){
+				
+			$posts[] = array(
+				'id' => $blog->id,
+				'title' => $blog->title,
+				'category_id' => $blog->category_id,
+				'description' => $blog->description,
+				'video_review' => $blog->video_review,
+				'is_featured' => $blog->is_featured,
+				'is_active' => $blog->is_active,
+				'imgUrl' => $blog->imgUrl,
+				'img' => base_url('media/uploads/blogs/'.$blog->img),
+				'created_at' => $blog->created_at
+			);
+		}
 		
 		$this->output
 			->set_content_type('application/json')
-			->set_output(json_encode($post));
+			->set_output(json_encode($posts));
 	}
 
 	public function recent_blogs()
@@ -161,14 +169,17 @@ class Api_Blog extends CI_Controller {
 
 	public function adminBlogs()
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		$posts = array();
-		if($token) {
+		// if($token) {
 			$blogs = $this->api_model_blog->get_admin_blogs();
-			foreach($blogs as $blog) {
+			$posts = array();
+		if(!empty($blogs)){
+			foreach($blogs as $blog){
+
+
 				$posts[] = array(
 					'id' => $blog->id,
 					'title' => $blog->title,
@@ -177,16 +188,18 @@ class Api_Blog extends CI_Controller {
 					'video_review' => $blog->video_review,
 					'is_featured' => $blog->is_featured,
 					'is_active' => $blog->is_active,
+					'imgUrl' => $blog->imgUrl,
 					'img' => base_url('media/uploads/blogs/'.$blog->img),
-					'created_at' => $blog->created_at
+					'created_at' => $blog->created_at,
+					'updated_at' => $blog->updated_at
 				);
 			}
-
-			$this->output
-				->set_status_header(200)
-				->set_content_type('application/json')
-				->set_output(json_encode($posts)); 
 		}
+
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($posts));
+		// }
 	}
 
 	public function adminBlog($id)
@@ -207,6 +220,7 @@ class Api_Blog extends CI_Controller {
 				'video_review' => $blog->video_review,
 				'is_featured' => $blog->is_featured,
 					'is_active' => $blog->is_active,
+					'imgUrl' => $blog->imgUrl,
                 'img' => base_url('media/uploads/blogs/'.$blog->img),
 				'is_featured' => $blog->is_featured,
 				'is_active' => $blog->is_active
@@ -222,11 +236,7 @@ class Api_Blog extends CI_Controller {
 
 	public function createBlog()
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
-
-		if($token) {
+		
 
 			$title = $this->input->post('title');
 			$user_id = $this->input->post('user_id');
@@ -235,6 +245,7 @@ class Api_Blog extends CI_Controller {
 			$category_id = $this->input->post('category_id');
 			$is_featured = $this->input->post('is_featured');
 			$is_active = $this->input->post('is_active');
+			$imgUrl = $this->input->post('imgUrl');
 
 			$filename = NULL;
 
@@ -272,6 +283,7 @@ class Api_Blog extends CI_Controller {
 					'img' => $filename,
 					'is_featured' => $is_featured,
 					'is_active' => $is_active,
+					'imgUrl' => $imgUrl,
 					'created_at' => date('Y-m-d H:i:s', time())
 				);
 
@@ -286,16 +298,12 @@ class Api_Blog extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		
 	}
 
 	public function updateBlog($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
 		
-		if($token) {
 
 			$blog = $this->api_model_blog->get_admin_blog($id);
 			$filename = $blog->img;
@@ -307,6 +315,7 @@ class Api_Blog extends CI_Controller {
 			$category_id = $this->input->post('category_id');
 			$is_featured = $this->input->post('is_featured');
 			$is_active = $this->input->post('is_active');
+			$imgUrl = $this->input->post('imgUrl');
 
 			$isUploadError = FALSE;
 
@@ -347,6 +356,7 @@ class Api_Blog extends CI_Controller {
 					'video_review' => $video_review,
 					'img' => $filename,
 					'is_featured' => $is_featured,
+					'imgUrl' => $imgUrl,
 					'is_active' => $is_active
 				);
 
@@ -361,16 +371,16 @@ class Api_Blog extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		
 	}
 
 	public function deleteBlog($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$blog = $this->api_model_blog->get_admin_blog($id);
 
@@ -389,6 +399,6 @@ class Api_Blog extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 }

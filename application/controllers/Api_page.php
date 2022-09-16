@@ -41,6 +41,7 @@ class Api_Page extends CI_Controller {
 					'video_review' => $page->video_review,
 					'is_active' => $page->is_active,
 					'is_featured' => $page->is_featured,
+					'imgUrl' => $page->imgUrl,
 					'img' => base_url('media/uploads/pages/'.$page->img),
 					'created_at' => $page->created_at
 				);
@@ -73,10 +74,12 @@ class Api_Page extends CI_Controller {
 					'video_review' => $page->video_review,
 					'is_active' => $page->is_active,
 					'is_featured' => $page->is_featured,
+					'imgUrl' => $page->imgUrl,
 					// 'short_desc' => html_entity_decode($short_desc),
 					// 'author' => $author,
 					'img' => base_url('media/uploads/pages/'.$page->img),
-					'created_at' => $page->created_at
+					'created_at' => $page->created_at,
+					'updated_at' => $page->updated_at
 				);
 			}
 		}
@@ -100,8 +103,10 @@ class Api_Page extends CI_Controller {
 					'video_review' => $page->video_review,
 					'is_active' => $page->is_active,
 					'is_featured' => $page->is_featured,
+					'imgUrl' => $page->imgUrl,
 					'img' => base_url('media/uploads/pages/'.$page->img),
-					'created_at' => $page->created_at
+					'created_at' => $page->created_at,
+					'updated_at' => $page->updated_at
 		);
 		
 		$this->output
@@ -130,10 +135,10 @@ class Api_Page extends CI_Controller {
 					'video_review' => $page->video_review,
 					'is_active' => $page->is_active,
 					'is_featured' => $page->is_featured,
-					// 'short_desc' => html_entity_decode($short_desc),
-					// 'author' => $author,
+					'imgUrl' => $page->imgUrl,
 					'img' => base_url('media/uploads/pages/'.$page->img),
-					'created_at' => $page->created_at
+					'created_at' => $page->created_at,
+					'updated_at' => $page->updated_at
 				);
 			}
 		}
@@ -146,12 +151,12 @@ class Api_Page extends CI_Controller {
 
 	public function adminPages()
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
+		// if($token) {
 		$posts = array();
-		if($token) {
 			$pages = $this->api_model_page->get_admin_pages();
 			foreach($pages as $page) {
 				$posts[] = array(
@@ -162,8 +167,10 @@ class Api_Page extends CI_Controller {
 					'video_review' => $page->video_review,
 					'is_active' => $page->is_active,
 					'is_featured' => $page->is_featured,
+					'imgUrl' => $page->imgUrl,
 					'img' => base_url('media/uploads/pages/'.$page->img),
-					'created_at' => $page->created_at
+					'created_at' => $page->created_at,
+					'updated_at' => $page->updated_at
 				);
 			}
 
@@ -171,7 +178,7 @@ class Api_Page extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($posts)); 
-		}
+		// }
 	}
 
 	public function adminPage($id)
@@ -192,6 +199,7 @@ class Api_Page extends CI_Controller {
 				'video_review' => $page->video_review,
 				'is_active' => $page->is_active,
 				'is_featured' => $page->is_featured,
+				'imgUrl' => $page->imgUrl,
                 'img' => base_url('media/uploads/pages/'.$page->img),
 				'is_active' => $page->is_active
 			);
@@ -206,11 +214,11 @@ class Api_Page extends CI_Controller {
 
 	public function createPage()
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$title = $this->input->post('title');
 			$user_id = $this->input->post('user_id');
@@ -220,6 +228,7 @@ class Api_Page extends CI_Controller {
 			$category_id = $this->input->post('category_id');
 			$is_featured = $this->input->post('is_featured');
 			$is_active = $this->input->post('is_active');
+			$imgUrl = $this->input->post('imgUrl');
 
 			$filename = NULL;
 
@@ -255,6 +264,7 @@ class Api_Page extends CI_Controller {
 					'description' => $description,
 					'video_review' => $video_review,
 					'is_active' => $is_active,
+					'imgurl' => $imgurl,
 					'img' => $filename,
 					'is_featured' => $is_featured,
 					'created_at' => date('Y-m-d H:i:s', time())
@@ -271,16 +281,16 @@ class Api_Page extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
 	public function updatePage($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$page = $this->api_model_page->get_admin_page($id);
 			$filename = $page->img;
@@ -293,6 +303,7 @@ class Api_Page extends CI_Controller {
 			$category_id = $this->input->post('category_id');
 			$is_featured = $this->input->post('is_featured');
 			$is_active = $this->input->post('is_active');
+			$imgUrl = $this->input->post('imgUrl');
 
 			$isUploadError = FALSE;
 
@@ -333,7 +344,9 @@ class Api_Page extends CI_Controller {
 					'video_review' => $video_review,
 					'img' => $filename,
 					'is_featured' => $is_featured,
-					'is_active' => $is_active
+					'is_active' => $is_active,
+					'imgUrl' => $imgUrl,
+					'updated_at' => date('Y-m-d H:i:s', time())
 				);
 
 				$this->api_model_page->updatePage($id, $pageData);
@@ -347,16 +360,16 @@ class Api_Page extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
 	public function deletePage($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$page = $this->api_model_page->get_admin_page($id);
 
@@ -375,6 +388,34 @@ class Api_Page extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
+		// }
+	}
+
+
+	public function pagebyCategory($category_id)
+	{
+		
+		$pages = $this->api_model_page->getPageCategory($category_id);
+
+		foreach($pages as $page){
+				
+			$posts[] = array(
+				'id' => $page->id,
+					'title' => $page->title,
+					'category_id' => $page->category_id,
+					'description' => $page->description,
+					'video_review' => $page->video_review,
+					'is_active' => $page->is_active,
+					'is_featured' => $page->is_featured,
+					'imgUrl' => $page->imgUrl,
+					'img' => base_url('media/uploads/pages/'.$page->img),
+					'created_at' => $page->created_at,
+					'updated_at' => $page->updated_at
+			);
 		}
+		
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($posts));
 	}
 }

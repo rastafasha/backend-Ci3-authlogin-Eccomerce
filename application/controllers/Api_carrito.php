@@ -175,11 +175,11 @@ class Api_Carrito extends CI_Controller {
 
 	public function createCarrito()
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$category = $this->input->post('category');
 			$user_id = $this->input->post('user_id');
@@ -216,16 +216,16 @@ class Api_Carrito extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
 	public function updateCarrito($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 		
-		if($token) {
+		// if($token) {
 
 			$carrito = $this->api_model_carrito->get_admin_carrito($id);
 
@@ -264,7 +264,7 @@ class Api_Carrito extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
 	public function deleteCarrito($id)

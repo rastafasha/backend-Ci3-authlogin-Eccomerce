@@ -8,6 +8,7 @@ class AuthController extends CI_Controller {
 		parent::__construct();
 		$this->load->model('AuthModel');
 		$this->load->helper('verifyAuthToken');
+        $this->load->model('api_model');
 
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json");
@@ -15,17 +16,25 @@ class AuthController extends CI_Controller {
         header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
         header("Access-Control-Allow-Headers: Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Access-Control-Allow-Request-Method");
 	
+        // header("Accept: */*");
+        // header("Access-Control-Allow-Origin: *");
+        // header("Access-Encoding: gzip, deflate, br");
+        // header("Accept-Language: es-ES,es;q=0.9,en;q=0.8,gl;q=0.7,pt;q=0.6");
+        // header("Content-Type: application/json");
 	}
 
     
 
 
     public function login(){
+        
+        
         $jwt = new JWT(); 
         $JwtSecretKey = "myloginSecret";
 
         $email = $this->input->post('email');
         $password = $this->input->post('password');
+        
 
         $user = $this->AuthModel->check_login($email, $password);
         // echo json_encode($user);
@@ -46,6 +55,14 @@ class AuthController extends CI_Controller {
 
 
     public function signup(){
+        $jwt = new JWT(); 
+        $JwtSecretKey = "myloginSecret";
+
+        $email = $this->input->post('email');
+        $password = $this->input->post('password');
+
+        $user = $this->AuthModel->check_login($email, $password);
+
         if($this->input->post()){
             $username = $this->input->post('username'); 
             $password = $this->input->post('password'); 
@@ -53,7 +70,6 @@ class AuthController extends CI_Controller {
             $last_name = $this->input->post('last_name'); 
             $email = $this->input->post('email'); 
             $role_id = $this->input->post('role_id'); 
-            $terminos = $this->input->post('terminos'); 
             $userData = array(
                 'username'=>$username,
                 'password'=>$password,
@@ -61,13 +77,21 @@ class AuthController extends CI_Controller {
                 'last_name'=>$last_name,
                 'email'=>$email,
                 'role_id'=>$role_id,
-                'terminos'=>$terminos,
                 'created_at'=>date('Y-m-d H:i:s', time())
             );
 
             $userId = $this->AuthModel->signup($userData);
             if($userId){
+
                 echo'User registered Succesfully';
+                $token = $jwt->encode($user, $JwtSecretKey, 'HS256');
+                $tokenArray = array(
+                    'user' => $user,
+                    'token' => $token,
+                );
+
+                echo json_encode($tokenArray);
+
             }else{
                 echo 'User Registered fail';
             }
@@ -85,19 +109,21 @@ class AuthController extends CI_Controller {
             try {
                 $token = verifyAuthToken($token);
                 if($token){
-
-
+                    // echo $token;
+                    // $userTemp = $this->decode_token($token, $JwtSecretKey);
+                    $userId = json_decode($token);
                     
-                    $user_id = $this->AuthModel->renewToken();
+                    $user = $this->AuthModel->renewToken($userId->id);
+                    echo ($userId->id);
+                    var_dump($userId->id);
+                    $token = $jwt->encode($user, $JwtSecretKey, 'HS256');
 
-                    $token = $jwt->encode($user_id, $JwtSecretKey, 'HS256');
                     $tokenArray = array(
-                        'ok' => true,
-                        'user' => $user_id,
+                        'user' => $user,
                         'token' => $token,
                     );
 
-                    // echo json_encode($user);
+                    // echo json_decode($userTemp);
                     echo json_encode($tokenArray);
                 }
                     
@@ -110,8 +136,8 @@ class AuthController extends CI_Controller {
                     );
     
                 echo json_encode($error);
+                // echo ($e);
             }
-
     }
 
     public function get_roles(){
@@ -147,81 +173,49 @@ class AuthController extends CI_Controller {
             
     }
 
-    public function editUser($id)
-	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+   
+    public function  encodetoken(){
+        $jwt = new JWT(); 
+        $JwtSecretKey = "myloginSecret";
 
-		if($token) {
+        $data = array(
+            'id'=>1245,
+            'email' => 'test@gmail.com',
+            'uerType'=> 'ADMIN'
+        );
 
-			$user = $this->AuthModel->get_user($id);
-			$filename = $user->img;
-
-			$first_name = $this->input->post('first_name');
-			$last_name = $this->input->post('last_name');
-			$role_id = $this->input->post('role_id');
-			$username = $this->input->post('username');
-			$email = $this->input->post('email');
-			$google = $this->input->post('google');
-
-			$isUploadError = FALSE;
-
-			if ($_FILES && $_FILES['img']['name']) {
-
-				$config['upload_path']          = './media/uploads/users/';
-	            $config['allowed_types']        = 'gif|jpg|png|jpeg';
-	            $config['max_size']             = 500;
-
-	            $this->load->library('upload', $config);
-	            if ( ! $this->upload->do_upload('img')) {
-
-	            	$isUploadError = TRUE;
-
-					$response = array(
-						'status' => 'error',
-						'message' => $this->upload->display_errors()
-					);
-	            }
-	            else {
-	   
-					if($user->img && file_exists(FCPATH.'media/uploads/users/'.$user->img))
-					{
-						unlink(FCPATH.'media/uploads/users/'.$user->img);
-					}
-
-	            	$uploadData = $this->upload->data();
-            		$filename = $uploadData['file_name'];
-	            }
-			}
+        $token = $jwt->encode($data, $JwtSecretKey, 'HS256');
+        echo $token; 
 
 
-			if( ! $isUploadError) {
-	        	$userData = array(
-					'first_name' => $first_name,
-					'last_name' => $last_name,
-					'role_id' => $role_id,
-					'username' => $username,
-					'email' => $email,
-					'google' => $google,
-					'img' => $filename,
-				);
+    }
+    
 
-				$this->api_model->updateUser($id, $userData);
+    public function decode_token($token, $JwtSecretKey){
+        // $token = $this->uri->segment(3);
+        // $token =  $splitToken[0];
 
-				$response = array(
-					'status' => 'success'
-				);
-           	}
+        echo 'hola';
+        echo $token;
+        echo $JwtSecretKey;
+        $jwt = new JWT();
 
-			$this->output
-				->set_status_header(200)
-				->set_content_type('application/json')
-				->set_output(json_encode($response)); 
-		}
-	}
+        $JwtSecretKey = "myloginSecret";
+
+        $decoded_token = $jwt->decode($token, $JwtSecretKey, 'HS256');
+        echo 'quetal?';
+        // return object
+        // echo '<pre>';
+        // print_r($decoded_token);
+
+        //return json
+        $token1 = $jwt->jsonEncode($decoded_token);
+        echo $token1;
 
 
+
+
+    }
    
 
     

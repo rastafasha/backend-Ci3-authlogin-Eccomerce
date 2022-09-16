@@ -40,7 +40,10 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $slider->enlace,
                     'target' => $slider->target,
                     'is_active' => $slider->is_active,
-					'img' => base_url('media/uploads/sliders/'.$slider->img)
+                    'imgUrl' => $slider->imgUrl,
+					'img' => base_url('media/uploads/sliders/'.$slider->img),
+					'updated_at' => $slider->updated_at,
+                    'created_at' => $slider->created_at,
 				);
 			}
 		}
@@ -70,6 +73,7 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $slider->enlace,
                     'target' => $slider->target,
                     'is_active' => $slider->is_active,
+                    'imgUrl' => $slider->imgUrl,
 					'img' => base_url('media/uploads/sliders/'.$slider->img)
 				);
 			}
@@ -96,6 +100,7 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $slider->enlace,
                     'target' => $slider->target,
                     'is_active' => $slider->is_active,
+                    'imgUrl' => $slider->imgUrl,
 					'img' => base_url('media/uploads/sliders/'.$slider->img)
 		);
 		
@@ -123,6 +128,7 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $slider->enlace,
                     'target' => $slider->target,
                     'is_active' => $slider->is_active,
+                    'imgUrl' => $slider->imgUrl,
 					'img' => base_url('media/uploads/sliders/'.$slider->img)
 				);
 			}
@@ -158,7 +164,11 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $slider->enlace,
                     'target' => $slider->target,
                     'is_active' => $slider->is_active,
-					'img' => base_url('media/uploads/sliders/'.$slider->img)
+                    'updated_at' => $slider->updated_at,
+                    'created_at' => $slider->created_at,
+                    'imgUrl' => $slider->imgUrl,
+					'img' => base_url('media/uploads/sliders/'.$slider->img),
+					
 				);
 			}
 
@@ -189,6 +199,7 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $slider->enlace,
                     'target' => $slider->target,
                     'is_active' => $slider->is_active,
+                    'imgUrl' => $slider->imgUrl,
 					'img' => base_url('media/uploads/sliders/'.$slider->img)
 			);
 			
@@ -202,11 +213,12 @@ class Api_Slider extends CI_Controller {
 
 	public function createSlider()
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+	
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$title = $this->input->post('title');
 			$user_id = $this->input->post('user_id');
@@ -217,6 +229,7 @@ class Api_Slider extends CI_Controller {
 			$enlace = $this->input->post('enlace');
 			$target = $this->input->post('target');
 			$is_active = $this->input->post('is_active');
+			$imgUrl = $this->input->post('imgUrl');
 
 			$filename = NULL;
 
@@ -256,6 +269,7 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $enlace,
 					'target' => $target,
 					'is_active' => $is_active,
+					'imgUrl' => $imgUrl,
 					'created_at' => date('Y-m-d H:i:s', time())
 				);
 
@@ -270,16 +284,17 @@ class Api_Slider extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
 	public function updateSlider($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$slider = $this->api_model_slider->get_admin_slider($id);
 			$filename = $slider->img;
@@ -293,6 +308,7 @@ class Api_Slider extends CI_Controller {
 			$enlace = $this->input->post('enlace');
 			$target = $this->input->post('target');
 			$is_active = $this->input->post('is_active');
+			$imgUrl = $this->input->post('imgUrl');
 
 			$isUploadError = FALSE;
 
@@ -336,6 +352,7 @@ class Api_Slider extends CI_Controller {
 					'enlace' => $enlace,
 					'target' => $target,
 					'is_active' => $is_active,
+					'imgUrl' => $imgUrl,
 					'updated_at' => date('Y-m-d H:i:s', time())
 				);
 
@@ -350,16 +367,16 @@ class Api_Slider extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
 	public function deleteSlider($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$slider = $this->api_model_slider->get_admin_slider($id);
 
@@ -378,7 +395,7 @@ class Api_Slider extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 	//
 

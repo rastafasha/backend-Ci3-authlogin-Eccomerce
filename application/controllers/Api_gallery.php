@@ -33,6 +33,7 @@ class Api_Gallery extends CI_Controller {
 					'user_id' => $gallery->user_id,
 					'category_id' => $gallery->category_id,
 					'titulo' => $gallery->titulo,
+					'imgUrl' => $gallery->imgUrl,
 					'img' => base_url('media/uploads/gallerys/'.$gallery->img),
 					'created_at' => $gallery->created_at,
 					'updated_at' => $gallery->updated_at,
@@ -59,6 +60,7 @@ class Api_Gallery extends CI_Controller {
 					'user_id' => $gallery->user_id,
 					'category_id' => $gallery->category_id,
 					'titulo' => $gallery->titulo,
+					'imgUrl' => $gallery->imgUrl,
 					'img' => base_url('media/uploads/gallerys/'.$gallery->img),
 					'created_at' => $gallery->created_at,
 					'updated_at' => $gallery->updated_at,
@@ -84,6 +86,7 @@ class Api_Gallery extends CI_Controller {
 					'user_id' => $gallery->user_id,
 					'category_id' => $gallery->category_id,
 					'titulo' => $gallery->titulo,
+					'imgUrl' => $gallery->imgUrl,
 					'img' => base_url('media/uploads/gallerys/'.$gallery->img),
 					'created_at' => $gallery->created_at,
 					'updated_at' => $gallery->updated_at,
@@ -106,6 +109,7 @@ class Api_Gallery extends CI_Controller {
 			'user_id' => $gallery->user_id,
 			'category_id' => $gallery->category_id,
 			'titulo' => $gallery->titulo,
+			'imgUrl' => $gallery->imgUrl,
 			'img' => base_url('media/uploads/gallerys/'.$gallery->img),
 			'created_at' => $gallery->created_at,
 			'updated_at' => $gallery->updated_at,
@@ -131,6 +135,7 @@ class Api_Gallery extends CI_Controller {
 					'user_id' => $gallery->user_id,
 					'category_id' => $gallery->category_id,
 					'titulo' => $gallery->titulo,
+					'imgUrl' => $gallery->imgUrl,
 					'img' => base_url('media/uploads/gallerys/'.$gallery->img),
 					'created_at' => $gallery->created_at,
 					'updated_at' => $gallery->updated_at,
@@ -159,6 +164,7 @@ class Api_Gallery extends CI_Controller {
 					'user_id' => $gallery->user_id,
 					'category_id' => $gallery->category_id,
 					'titulo' => $gallery->titulo,
+					'imgUrl' => $gallery->imgUrl,
 					'img' => base_url('media/uploads/gallerys/'.$gallery->img),
 					'created_at' => $gallery->created_at,
 					'updated_at' => $gallery->updated_at,
@@ -187,6 +193,7 @@ class Api_Gallery extends CI_Controller {
 					'user_id' => $gallery->user_id,
 					'category_id' => $gallery->category_id,
 					'titulo' => $gallery->titulo,
+					'imgUrl' => $gallery->imgUrl,
 					'img' => base_url('media/uploads/gallerys/'.$gallery->img),
 					'created_at' => $gallery->created_at,
 					'updated_at' => $gallery->updated_at,
@@ -200,13 +207,13 @@ class Api_Gallery extends CI_Controller {
 		}
 	}
 
-	public function createBlog()
+	public function createGallery()
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$titulo = $this->input->post('titulo');
 			$user_id = $this->input->post('user_id');
@@ -258,23 +265,68 @@ class Api_Gallery extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
 	public function updateGallery($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 		
-		if($token) {
+		// if($token) {
 
 			$gallery = $this->api_model_gallery->get_admin_gallery($id);
-			$filename = $gallery->img;
 
 			$titulo = $this->input->post('titulo');
 			$user_id = $this->input->post('user_id');
 			$category_id = $this->input->post('category_id');
+			$imgUrl = $this->input->post('imgUrl');
+
+			$isUploadError = FALSE;
+
+
+			if( ! $isUploadError) {
+	        	$galleryData = array(
+					'titulo' => $titulo,
+					'user_id' => $user_id,
+					'imgUrl' => $imgUrl,
+					'category_id' => $category_id,
+					'updated_at' => date('Y-m-d H:i:s', time())
+				);
+
+				$this->api_model_gallery->updateGallery($id, $galleryData);
+
+				$response = array(
+					'status' => 'success'
+				);
+           	}
+
+			$this->output
+				->set_status_header(200)
+				->set_content_type('application/json')
+				->set_output(json_encode($response)); 
+		// }
+	}
+
+
+
+	public function updateGalleryPhoto($id)
+	{
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
+		
+		// if($token) {
+
+			$gallery = $this->api_model_gallery->get_admin_gallery($id);
+			$titulo = $this->input->post('titulo');
+			$user_id = $this->input->post('user_id');
+			$category_id = $this->input->post('category_id');
+			$imgUrl = $this->input->post('imgUrl');
+			
+			$filename = $gallery->img;
+
 
 			$isUploadError = FALSE;
 
@@ -310,8 +362,8 @@ class Api_Gallery extends CI_Controller {
 	        	$galleryData = array(
 					'titulo' => $titulo,
 					'user_id' => $user_id,
+					'imgUrl' => $imgUrl,
 					'category_id' => $category_id,
-					'img' => $filename,
 					'updated_at' => date('Y-m-d H:i:s', time())
 				);
 
@@ -326,16 +378,16 @@ class Api_Gallery extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
-	public function deleteBlog($id)
+	public function deleteGallery($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$blog = $this->api_model_gallery->get_admin_gallery($id);
 
@@ -354,6 +406,6 @@ class Api_Gallery extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 }

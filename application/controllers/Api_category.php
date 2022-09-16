@@ -97,7 +97,8 @@ class Api_Category extends CI_Controller {
 				$posts[] = array(
 					'id' => $category->id,
 					'category_name' => $category->category_name,
-					'created_at' => $category->created_at
+					'created_at' => $category->created_at,
+					'updated_at' => $category->updated_at
 				);
 			}
 
@@ -135,12 +136,13 @@ class Api_Category extends CI_Controller {
 	public function createCategory()
 	{
 		
-
+		
 		$category_name = $this->input->post('category_name');
 
 		
 		$categoryData = array(
 			'category_name' => $category_name,
+			'created_at' => date('Y-m-d H:i:s', time())
 		);
 
 		$id = $this->api_model_category->insertCategory($categoryData);
@@ -162,41 +164,46 @@ class Api_Category extends CI_Controller {
 	public function updateCategory($id)
 	{
 		
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
-
+		// if($token) {
+			
 			$category = $this->api_model_category->get_admin_category($id);
 
 			$category_name = $this->input->post('category_name');
 
-
 			$categoryData = array(
+				'id' => $id,
 				'category_name' => $category_name,
+				'updated_at' => date('Y-m-d H:i:s', time())
 			);
 
 			$this->api_model_category->updateCategory($id, $categoryData);
 
 			$response = array(
-				'status' => 'success'
+				'status' => 'success',
+				'categoryData' => json_encode($categoryData)
 			);
-
+			
 			$this->output
 				->set_status_header(200)
 				->set_content_type('application/json')
-				->set_output(json_encode($response)); 
-		}
+				->set_output(json_encode($response));
+		// }
+		 
+
+			
 	}
 
 	public function deleteCategory($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$category = $this->api_model_category->get_admin_category($id);
 
@@ -210,6 +217,6 @@ class Api_Category extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 }

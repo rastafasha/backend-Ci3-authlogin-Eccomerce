@@ -44,6 +44,7 @@ class Api_Curso extends CI_Controller {
 					'category_id' => $curso->category_id,
                     'is_featured' => $curso->is_featured,
                     'is_active' => $curso->is_active,
+					'imgUrl' => $curso->imgUrl,
 					'img' => base_url('media/uploads/cursos/'.$curso->img),
 					'created_at' => $curso->created_at
 				);
@@ -77,6 +78,7 @@ class Api_Curso extends CI_Controller {
 					'category_id' => $curso->category_id,
                     'is_featured' => $curso->is_featured,
                     'is_active' => $curso->is_active,
+					'imgUrl' => $curso->imgUrl,
 					'img' => base_url('media/uploads/cursos/'.$curso->img),
 					'created_at' => $curso->created_at
 				);
@@ -103,6 +105,7 @@ class Api_Curso extends CI_Controller {
 					'category_id' => $curso->category_id,
                     'is_featured' => $curso->is_featured,
                     'is_active' => $curso->is_active,
+					'imgUrl' => $curso->imgUrl,
 					'img' => base_url('media/uploads/cursos/'.$curso->img),
 					'created_at' => $curso->created_at
 			);
@@ -136,6 +139,7 @@ class Api_Curso extends CI_Controller {
 					'category_id' => $curso->category_id,
                     'is_featured' => $curso->is_featured,
                     'is_active' => $curso->is_active,
+					'imgUrl' => $curso->imgUrl,
 					'img' => base_url('media/uploads/cursos/'.$curso->img),
 					'created_at' => $curso->created_at
 				);
@@ -169,8 +173,10 @@ class Api_Curso extends CI_Controller {
 					'category_id' => $curso->category_id,
                     'is_featured' => $curso->is_featured,
                     'is_active' => $curso->is_active,
+					'imgUrl' => $curso->imgUrl,
 					'img' => base_url('media/uploads/cursos/'.$curso->img),
-					'created_at' => $curso->created_at
+					'created_at' => $curso->created_at,
+					'updated_at' => $curso->updated_at,
 				);
 			}
 
@@ -188,10 +194,8 @@ class Api_Curso extends CI_Controller {
         $token =  $splitToken[0];
 
 		if($token) {
-
 			$curso = $this->api_model_curso->get_admin_curso($id);
-
-			$post = array(
+			$posts = array(
 				'id' => $curso->id,
 					'name' => $curso->name,
 					'price' => $curso->price,
@@ -202,6 +206,7 @@ class Api_Curso extends CI_Controller {
 					'category_id' => $curso->category_id,
                     'is_featured' => $curso->is_featured,
                     'is_active' => $curso->is_active,
+					'imgUrl' => $curso->imgUrl,
 					'img' => base_url('media/uploads/cursos/'.$curso->img),
 					'created_at' => $curso->created_at
 			);
@@ -210,28 +215,29 @@ class Api_Curso extends CI_Controller {
 			$this->output
 				->set_status_header(200)
 				->set_content_type('application/json')
-				->set_output(json_encode($post)); 
+				->set_output(json_encode($posts)); 
 		}
 	}
 
 	public function createCurso()
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// <!-- $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) { -->
 
-			$user_id = $this->input->post('user_id');
 			$name = $this->input->post('name');
+			$user_id = $this->input->post('user_id');
+			$category_id = $this->input->post('category_id');
 			$price = $this->input->post('price');
 			$cod_prod = $this->input->post('cod_prod');
 			$description = $this->input->post('description');
 			$video_review = $this->input->post('video_review');
 			$info_short = $this->input->post('info_short');
-			$category_id = $this->input->post('category_id');
 			$is_featured = $this->input->post('is_featured');
 			$is_active = $this->input->post('is_active');
+			$imgUrl = $this->input->post('imgUrl');
 
 			$filename = NULL;
 
@@ -272,6 +278,7 @@ class Api_Curso extends CI_Controller {
 					'img' => $filename,
 					'is_featured' => $is_featured,
 					'is_active' => $is_active,
+					'imgUrl' => $imgUrl,
 					'created_at' => date('Y-m-d H:i:s', time())
 				);
 
@@ -286,16 +293,17 @@ class Api_Curso extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
-	public function updateCurso($id)
+	public function updateCurso($id) 
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		
+		// if($token) {
 
 			$curso = $this->api_model_curso->get_admin_curso($id);
 			$filename = $curso->img;
@@ -310,6 +318,7 @@ class Api_Curso extends CI_Controller {
 			$category_id = $this->input->post('category_id');
 			$is_featured = $this->input->post('is_featured');
 			$is_active = $this->input->post('is_active');
+			$imgUrl = $this->input->post('imgUrl');
 
 			$isUploadError = FALSE;
 
@@ -353,7 +362,9 @@ class Api_Curso extends CI_Controller {
 					'info_short' => $info_short,
 					'img' => $filename,
 					'is_featured' => $is_featured,
+					'imgUrl' => $imgUrl,
 					'is_active' => $is_active,
+					'updated_at' => date('Y-m-d H:i:s', time())
 				);
 
 				$this->api_model_curso->updateCurso($id, $cursoData);
@@ -367,16 +378,16 @@ class Api_Curso extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
 	public function deleteCurso($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$curso = $this->api_model_curso->get_admin_curso($id);
 
@@ -395,6 +406,38 @@ class Api_Curso extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
+		// }
+	}
+
+
+	public function cursobyCategory($category_id)
+	{
+		
+		$cursos = $this->api_model_curso->getCursoCategory($category_id);
+
+
+		foreach($cursos as $curso){
+				
+			$posts[] = array(
+				'id' => $curso->id,
+					'name' => $curso->name,
+					'price' => $curso->price,
+					'cod_prod' => $curso->cod_prod,
+					'description' => $curso->description,
+					'video_review' => $curso->video_review,
+					'info_short' => $curso->info_short,
+					'category_id' => $curso->category_id,
+                    'is_featured' => $curso->is_featured,
+                    'is_active' => $curso->is_active,
+					'imgUrl' => $curso->imgUrl,
+					'img' => base_url('media/uploads/cursos/'.$curso->img),
+					'created_at' => $curso->created_at,
+					'updated_at' => $curso->updated_at,
+			);
 		}
+		
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($posts));
 	}
 }

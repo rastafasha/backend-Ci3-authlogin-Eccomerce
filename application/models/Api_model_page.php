@@ -33,6 +33,19 @@ class Api_model_page extends CI_Model
 		return $query->row();
 	}
 
+	public function getPageCategory($category_id){
+		$this->db->select('page.*');
+		$this->db->from('pages page');
+		$this->db->join('categories cat' ,  'cat.id=page.category_id');
+		$this->db->where('page.category_id', $category_id);
+		
+		$query = $this->db->get();
+
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+	}
+
 	public function get_categories()
 	{
 		$query = $this->db->get('categories');
@@ -41,9 +54,11 @@ class Api_model_page extends CI_Model
 
 	
 
+	
+
 	public function get_admin_pages()
 	{
-		$this->db->select('page.*, u.first_name, u.last_name');
+		$this->db->select('page.*');
 		$this->db->from('pages page');
 		$this->db->join('users u', 'u.id=page.user_id');
 		$this->db->order_by('page.created_at', 'desc');

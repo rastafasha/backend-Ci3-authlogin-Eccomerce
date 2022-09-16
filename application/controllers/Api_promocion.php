@@ -45,6 +45,9 @@ class Api_Promocion extends CI_Controller {
 					'enlace' => $promocion->enlace,
                     'target' => $promocion->target,
                     'is_active' => $promocion->is_active,
+                    'created_at' => $promocion->created_at,
+                    'updated_at' => $promocion->updated_at,
+                    'imgUrl' => $promocion->imgUrl,
 					'img' => base_url('./media/uploads/promocions/'.$promocion->img)
 				);
 			}
@@ -74,6 +77,7 @@ class Api_Promocion extends CI_Controller {
 					'enlace' => $promocion->enlace,
                     'target' => $promocion->target,
                     'is_active' => $promocion->is_active,
+                    'imgUrl' => $promocion->imgUrl,
 					'img' => base_url('media/uploads/promocions/'.$promocion->img)
 		);
 		
@@ -104,6 +108,9 @@ class Api_Promocion extends CI_Controller {
 					'enlace' => $promocion->enlace,
                     'target' => $promocion->target,
                     'is_active' => $promocion->is_active,
+					'created_at' => $promocion->created_at,
+                    'updated_at' => $promocion->updated_at,
+                    'imgUrl' => $promocion->imgUrl,
 					'img' => base_url('./media/uploads/promocions/'.$promocion->img)
 				);
 			}
@@ -140,7 +147,10 @@ class Api_Promocion extends CI_Controller {
 					'boton' => $promocion->boton,
 					'enlace' => $promocion->enlace,
                     'target' => $promocion->target,
+					'created_at' => $promocion->created_at,
+                    'updated_at' => $promocion->updated_at,
                     'is_active' => $promocion->is_active,
+                    'imgUrl' => $promocion->imgUrl,
 					'img' => base_url('./media/uploads/promocions/'.$promocion->img)
 				);
 			}
@@ -174,6 +184,7 @@ class Api_Promocion extends CI_Controller {
 					'enlace' => $promocion->enlace,
                     'target' => $promocion->target,
                     'is_active' => $promocion->is_active,
+                    'imgUrl' => $promocion->imgUrl,
 					'img' => base_url('./media/uploads/promocions/'.$promocion->img)
 			);
 			
@@ -187,11 +198,11 @@ class Api_Promocion extends CI_Controller {
 
 	public function createPromocion()
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$first_title = $this->input->post('first_title');
 			$user_id = $this->input->post('user_id');
@@ -204,6 +215,7 @@ class Api_Promocion extends CI_Controller {
 			$enlace = $this->input->post('enlace');
 			$target = $this->input->post('target');
 			$is_active = $this->input->post('is_active');
+			$imgUrl = $this->input->post('imgUrl');
 
 			$filename = NULL;
 
@@ -245,6 +257,7 @@ class Api_Promocion extends CI_Controller {
 					'enlace' => $enlace,
 					'target' => $target,
 					'is_active' => $is_active,
+					'imgUrl' => $imgUrl,
 				);
 
 				$id = $this->api_model_promocion->insertPromocion($promocionData);
@@ -258,16 +271,16 @@ class Api_Promocion extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
 	public function updatePromocion($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$promocion = $this->api_model_promocion->get_admin_promocion($id);
 			$filename = $promocion->img;
@@ -283,6 +296,7 @@ class Api_Promocion extends CI_Controller {
 			$enlace = $this->input->post('enlace');
 			$target = $this->input->post('target');
 			$is_active = $this->input->post('is_active');
+			$imgUrl = $this->input->post('imgUrl');
 
 			$isUploadError = FALSE;
 
@@ -328,6 +342,7 @@ class Api_Promocion extends CI_Controller {
 					'enlace' => $enlace,
 					'target' => $target,
 					'is_active' => $is_active,
+					'imgUrl' => $imgUrl,
 				);
 
 				$this->api_model_promocion->updatePromocion($id, $promocionData);
@@ -341,7 +356,7 @@ class Api_Promocion extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
 	public function deletePromocion($id)

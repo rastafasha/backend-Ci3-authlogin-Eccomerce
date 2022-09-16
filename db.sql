@@ -303,7 +303,7 @@ SHOW TABLES;
 --
 
 CREATE TABLE `carritos` (
-  `id` int(11) NOT NULL,
+  `id` int PRIMARY key AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `productPrice` varchar(255) DEFAULT NULL,
   `category` varchar(255) DEFAULT NULL,
@@ -325,7 +325,7 @@ SHOW TABLES;
 --
 
 CREATE TABLE `ventas` (
-  `id` int(11) NOT NULL,
+  `id` int PRIMARY key AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `total_pagado` varchar(255) DEFAULT NULL,
   `info_cupon` varchar(255) DEFAULT NULL,
@@ -358,7 +358,7 @@ SHOW TABLES;
 --
 
 CREATE TABLE `direccions` (
-  `id` int(11) NOT NULL,
+  `id` int PRIMARY key AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `first_name` varchar(255) DEFAULT NULL,
   `last_name` varchar(255) DEFAULT NULL,
@@ -382,7 +382,7 @@ SHOW TABLES;
 --
 
 CREATE TABLE `coupons` (
-  `id` int(11) NOT NULL,
+  `id` int PRIMARY key AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `tipo` varchar(255) DEFAULT NULL,
@@ -402,7 +402,7 @@ SHOW TABLES;
 --
 
 CREATE TABLE `comentarios` (
-  `id` int(11) NOT NULL,
+  `id` int PRIMARY key AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `producto_id` int(11) NOT NULL,
   `curso_id` int(11) NOT NULL,
@@ -425,7 +425,7 @@ SHOW TABLES;
 --
 
 CREATE TABLE `likescomments` (
-  `id` int(11) NOT NULL,
+  `id` int PRIMARY key AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `comentario_id` int(11) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
@@ -442,12 +442,12 @@ SHOW TABLES;
 --
 
 CREATE TABLE `dislikescomments` (
-  `id` int(11) NOT NULL,
+  `id` int PRIMARY key AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `comentario_id` int(11) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (comentario_id) REFERENCES comentarios(id) ON UPDATE CASCADE,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SHOW TABLES;
 
@@ -458,7 +458,7 @@ SHOW TABLES;
 --
 
 CREATE TABLE `cancelacions` (
-  `id` int(11) NOT NULL,
+ `id` int PRIMARY key AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `venta_id` int(11) NOT NULL,
   `comentario` text NOT NULL,
@@ -480,7 +480,7 @@ SHOW TABLES;
 --
 
 CREATE TABLE `videocursos` (
-  `id` int(11) NOT NULL,
+  `id` int PRIMARY key AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `curso_id` int(11) NOT NULL,
   `url` text NOT NULL,
@@ -488,7 +488,7 @@ CREATE TABLE `videocursos` (
   FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
   FOREIGN KEY (curso_id) REFERENCES cursos(id) ON UPDATE CASCADE,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SHOW TABLES;
 
@@ -499,9 +499,26 @@ SHOW TABLES;
 --
 
 CREATE TABLE `newsletters` (
-  `id` int(11) NOT NULL,
+  `id` int PRIMARY key AUTO_INCREMENT,
   `email` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SHOW TABLES;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `envios`
+--
+
+CREATE TABLE `envios` (
+  `id` int PRIMARY key AUTO_INCREMENT,
+  `titulo` varchar(255) DEFAULT NULL,
+  `precio` varchar(255) DEFAULT NULL,
+  `dias` varchar(255) DEFAULT NULL,
+  `tiempo` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SHOW TABLES;
 

@@ -61,4 +61,5 @@ $route['users'] = 'AuthController/getUsers';
 $route['renew'] = 'AuthController/renewToken';
 
 $route['login/google'] = 'Google_login/loginGoogle';
+$route['upload'] = 'Api_ImageUpload/store';
 

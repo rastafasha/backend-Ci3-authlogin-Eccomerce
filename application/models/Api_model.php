@@ -45,6 +45,17 @@ class Api_model extends CI_Model
 		$this->db->update('users', $userData);
 	}
 
+	public function checkToken($token)
+	{
+		$this->db->where('token', $token);
+		$query = $this->db->get('users');
+
+		if($query->num_rows() == 1) {
+			return true;
+		}
+		return false;
+	}
+
 
 	public function deleteUser($id)
 	{

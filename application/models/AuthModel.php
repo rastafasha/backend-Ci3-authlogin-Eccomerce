@@ -4,30 +4,45 @@ class AuthModel extends CI_Model{
 
     function check_login($email, $password){
 
-        $this->db->select('*');
+        $this->db->select();
         $this->db->from('users user');
-        $this->db->where('email', $email);
+        $this->db->where('user.email', $email);
+        $this->db->where('user.password', $password);
         // $this->db->where('user.user_id', $id);
-        $this->db->where('password', $password);
 
         $query = $this->db->get();
 
         if($query->num_rows() > 0){
-            return $query->result_array();
+            return $query->row();
+            // return $query->result_array();
         }else{
             return 'User not Found';
         }
 
     }
 
-    function renewToken(){
-        $this->db->select('user.*');
+    function renewToken($id){
+        // var_dump($id);
+        $this->db->select();
 		$this->db->from('users user');
-        // $this->db->where('user.id', $id);
-        $query = $this->db->get();
+        $this->db->where('user.id', $id);
 
+        $query = $this->db->get();
         return $query->row();
     }
+
+    // token
+
+	public function checkToken($token)
+	{
+		$this->db->where('token', $token);
+		$query = $this->db->get('users');
+
+		if($query->num_rows() == 1) {
+			return true;
+		}
+		return false;
+	}
 
     public function get_user($id)
 	{

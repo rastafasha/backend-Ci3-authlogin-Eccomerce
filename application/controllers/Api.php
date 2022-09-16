@@ -38,6 +38,7 @@ class Api extends CI_Controller {
 					'last_name' => $user->last_name,
 					'email' => $user->email,
 					'role_id' => $user->role_id,
+					'imgUrl' => $user->imgUrl,
 					'img' => base_url('media/uploads/users/'.$user->img),
 					'created_at' => $user->created_at
 				);
@@ -51,8 +52,13 @@ class Api extends CI_Controller {
 
 	public function user($id)
 	{
-		
-		$user = $this->api_model->get_user($id);
+		$headerToken = $this->input->get_request_header('Authorization');
+        $splitToken = explode(" ", $headerToken);
+        $token =  $splitToken[0];
+
+		if($token) {
+
+			$user = $this->api_model->get_user($id);
 
 		$post = array(
 			'id' => $user->id,
@@ -61,6 +67,8 @@ class Api extends CI_Controller {
 					'last_name' => $user->last_name,
 					'email' => $user->email,
 					'role_id' => $user->role_id,
+					'imgUrl' => $user->imgUrl,
+					'google' => $user->google,
 					'img' => base_url('media/uploads/users/'.$user->img),
 					'created_at' => $user->created_at
 		);
@@ -68,6 +76,10 @@ class Api extends CI_Controller {
 		$this->output
 			->set_content_type('application/json')
 			->set_output(json_encode($post));
+
+		}
+		
+		
 	}
 
 
@@ -126,6 +138,7 @@ class Api extends CI_Controller {
 					'last_name' => $last_name,
 					'img' => $filename,
 					'role_id' => $role_id,
+					'imgUrl' => $imgUrl,
 				);
 
 				$this->api_model->updateUser($id, $userData);

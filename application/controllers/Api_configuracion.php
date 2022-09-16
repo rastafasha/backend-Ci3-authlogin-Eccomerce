@@ -47,6 +47,8 @@ class Api_Configuracion extends CI_Controller {
 					'youtube' => $configuracion->youtube,
 					'twitter' => $configuracion->twitter,
 					'language' => $configuracion->language,
+					'logoUrl' => $configuracion->logoUrl,
+					'faviconUrl' => $configuracion->faviconUrl,
 					'logo' => base_url('media/uploads/configuracions/'.$configuracion->logo),
 					'favicon' => base_url('media/uploads/configuracions/'.$configuracion->favicon),
 					'created_at' => $configuracion->created_at
@@ -82,6 +84,8 @@ class Api_Configuracion extends CI_Controller {
 					'youtube' => $configuracion->youtube,
 					'twitter' => $configuracion->twitter,
 					'language' => $configuracion->language,
+					'logoUrl' => $configuracion->logoUrl,
+					'faviconUrl' => $configuracion->faviconUrl,
 					'logo' => base_url('media/uploads/configuracions/'.$configuracion->logo),
 					'favicon' => base_url('media/uploads/configuracions/'.$configuracion->favicon),
 					'created_at' => $configuracion->created_at
@@ -121,6 +125,8 @@ class Api_Configuracion extends CI_Controller {
 					'youtube' => $configuracions->youtube,
 					'twitter' => $configuracions->twitter,
 					'language' => $configuracions->language,
+					'logoUrl' => $configuracion->logoUrl,
+					'faviconUrl' => $configuracion->faviconUrl,
 					'logo' => base_url('media/uploads/configuracions/'.$configuracions->logo),
 					'favicon' => base_url('media/uploads/configuracions/'.$configuracions->favicon),
 					'created_at' => $configuracions->created_at
@@ -136,11 +142,11 @@ class Api_Configuracion extends CI_Controller {
 
 	public function adminConfiguracion($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$configuracion = $this->api_model_configuracion->get_admin_configuracion($id);
 
@@ -160,6 +166,8 @@ class Api_Configuracion extends CI_Controller {
 					'youtube' => $configuracion->youtube,
 					'twitter' => $configuracion->twitter,
 					'language' => $configuracion->language,
+					'logoUrl' => $configuracion->logoUrl,
+					'faviconUrl' => $configuracion->faviconUrl,
 					'logo' => base_url('media/uploads/configuracions/'.$configuracion->logo),
 					'favicon' => base_url('media/uploads/configuracions/'.$configuracion->favicon),
 					'created_at' => $configuracion->created_at
@@ -170,7 +178,7 @@ class Api_Configuracion extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($post)); 
-		}
+		// }
 	}
 
 	public function createConfiguracion()
@@ -196,6 +204,8 @@ class Api_Configuracion extends CI_Controller {
 			$youtube = $this->input->post('youtube');
 			$twitter = $this->input->post('twitter');
 			$language = $this->input->post('language');
+			$logoUrl = $this->input->post('logoUrl');
+			$faviconUrl = $this->input->post('faviconUrl');
 
 			$filename = NULL;
 			$filename2 = NULL;
@@ -264,6 +274,8 @@ class Api_Configuracion extends CI_Controller {
 					'language' => $language,
 					'logo' => $filename,
 					'favicon' => $filename2,
+					'logoUrl' => $logoUrl,
+					'faviconUrl' => $faviconUrl,
 					'created_at' => date('Y-m-d H:i:s', time())
 				);
 
@@ -283,11 +295,11 @@ class Api_Configuracion extends CI_Controller {
 
 	public function updateConfiguracion($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$configuracion = $this->api_model_configuracion->get_admin_configuracion($id);
 			$filename = $configuracion->logo;
@@ -308,6 +320,8 @@ class Api_Configuracion extends CI_Controller {
 			$youtube = $this->input->post('youtube');
 			$twitter = $this->input->post('twitter');
 			$language = $this->input->post('language');
+			$logoUrl = $this->input->post('logoUrl');
+			$faviconUrl = $this->input->post('faviconUrl');
 
 			$isUploadError = FALSE;
 
@@ -386,6 +400,8 @@ class Api_Configuracion extends CI_Controller {
 					'language' => $language,
 					'logo' => $filename,
 					'favicon' => $filename2,
+					'logoUrl' => $logoUrl,
+					'faviconUrl' => $faviconUrl,
 				);
 
 				$this->api_model_configuracion->updateConfiguracion($id, $configuracionData);
@@ -399,7 +415,7 @@ class Api_Configuracion extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
 	public function deleteConfiguracion($id)

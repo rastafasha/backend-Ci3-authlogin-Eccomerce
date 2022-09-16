@@ -40,6 +40,19 @@ class Api_model_curso extends CI_Model
 		return $query->row();
 	}
 
+	public function getCursoCategory($category_id){
+		$this->db->select('curso.*');
+		$this->db->from('cursos curso');
+		$this->db->join('categories cat' ,  'cat.id=curso.category_id');
+		$this->db->where('curso.category_id', $category_id);
+		
+		$query = $this->db->get();
+
+        if($query->num_rows() > 0){
+            return $query->result();
+        }
+	}
+
 
 
 	public function get_admin_cursos()
@@ -60,6 +73,8 @@ class Api_model_curso extends CI_Model
 		$query = $this->db->get();
 		return $query->row();
 	}
+
+
 
 	public function insertCurso($cursoData)
 	{

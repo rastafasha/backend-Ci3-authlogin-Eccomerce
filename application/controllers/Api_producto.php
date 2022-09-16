@@ -33,8 +33,6 @@ class Api_Producto extends CI_Controller {
 		if(!empty($productos)){
 			foreach($productos as $producto){
 
-				// $short_desc = strip_tags(character_limiter($producto->description, 70));
-
 				$posts[] = array(
 					'id' => $producto->id,
 					'name' => $producto->name,
@@ -46,9 +44,11 @@ class Api_Producto extends CI_Controller {
 					'category_id' => $producto->category_id,
                     'is_featured' => $producto->is_featured,
                     'is_active' => $producto->is_active,
-                    // 'short_desc' => html_entity_decode($short_desc),
+					'imgUrl' => $producto->imgUrl,
 					'img' => base_url('media/uploads/productos/'.$producto->img),
-					'created_at' => $producto->created_at
+					'created_at' => $producto->created_at,
+					'updated_at' => $producto->created_at
+
 				);
 			}
 		}
@@ -68,7 +68,6 @@ class Api_Producto extends CI_Controller {
 		if(!empty($productos)){
 			foreach($productos as $producto){
 				
-				// $short_desc = strip_tags(character_limiter($producto->description, 70));
 
 				$posts[] = array(
 					'id' => $producto->id,
@@ -81,9 +80,10 @@ class Api_Producto extends CI_Controller {
 					'category_id' => $producto->category_id,
                     'is_featured' => $producto->is_featured,
                     'is_active' => $producto->is_active,
-                    // 'short_desc' => html_entity_decode($short_desc),
+					'imgUrl' => $producto->imgUrl,
 					'img' => base_url('media/uploads/productos/'.$producto->img),
-					'created_at' => $producto->created_at
+					'created_at' => $producto->created_at,
+					'updated_at' => $producto->created_at
 				);
 			}
 		}
@@ -95,29 +95,30 @@ class Api_Producto extends CI_Controller {
 
 	public function producto($cod_prod)
 	{
-		
-		
 		$producto = $this->api_model_producto->get_producto($cod_prod);
 
-		$post = array(
-			'id' => $producto->id,
-			'name' => $producto->name,
-			'price' => $producto->price,
-			'cod_prod' => $producto->cod_prod,
-			'description' => $producto->description,
-			'video_review' => $producto->video_review,
-			'info_short' => $producto->info_short,
-			'category_id' => $producto->category_id,
-			'is_featured' => $producto->is_featured,
-			'is_active' => $producto->is_active,
-			// 'short_desc' => html_entity_decode($short_desc),
-			'img' => base_url('media/uploads/productos/'.$producto->img),
-			'created_at' => $producto->created_at
-		);
-		
-		$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($post));
+			$post = array(
+				'id' => $producto->id,
+					'name' => $producto->name,
+					'price' => $producto->price,
+					'cod_prod' => $producto->cod_prod,
+					'description' => $producto->description,
+					'video_review' => $producto->video_review,
+					'info_short' => $producto->info_short,
+					'category_id' => $producto->category_id,
+                    'is_featured' => $producto->is_featured,
+                    'is_active' => $producto->is_active,
+					'imgUrl' => $producto->imgUrl,
+					'img' => base_url('media/uploads/productos/'.$producto->img),
+					'created_at' => $producto->created_at,
+					'updated_at' => $producto->created_at
+			);
+			
+
+			$this->output
+				->set_status_header(200)
+				->set_content_type('application/json')
+				->set_output(json_encode($post)); 
 	}
 
 	public function recent_productos()
@@ -130,7 +131,6 @@ class Api_Producto extends CI_Controller {
 		if(!empty($productos)){
 			foreach($productos as $producto){
 				
-				// $short_desc = strip_tags(character_limiter($producto->description, 70));
 
 				$posts[] = array(
 					'id' => $producto->id,
@@ -143,9 +143,10 @@ class Api_Producto extends CI_Controller {
 					'category_id' => $producto->category_id,
                     'is_featured' => $producto->is_featured,
                     'is_active' => $producto->is_active,
-                    // 'short_desc' => html_entity_decode($short_desc),
+					'imgUrl' => $producto->imgUrl,
 					'img' => base_url('media/uploads/productos/'.$producto->img),
-					'created_at' => $producto->created_at
+					'created_at' => $producto->created_at,
+					'updated_at' => $producto->created_at
 				);
 			}
 		}
@@ -169,6 +170,7 @@ class Api_Producto extends CI_Controller {
 				$posts[] = array(
 					'id' => $producto->id,
 					'name' => $producto->name,
+					'price' => $producto->price,
 					'cod_prod' => $producto->cod_prod,
 					'description' => $producto->description,
 					'video_review' => $producto->video_review,
@@ -176,9 +178,10 @@ class Api_Producto extends CI_Controller {
 					'category_id' => $producto->category_id,
                     'is_featured' => $producto->is_featured,
                     'is_active' => $producto->is_active,
-                    // 'short_desc' => html_entity_decode($short_desc),
+					'imgUrl' => $producto->imgUrl,
 					'img' => base_url('media/uploads/productos/'.$producto->img),
-					'created_at' => $producto->created_at
+					'created_at' => $producto->created_at,
+					'updated_at' => $producto->created_at
 				);
 			}
 
@@ -196,10 +199,8 @@ class Api_Producto extends CI_Controller {
         $token =  $splitToken[0];
 
 		if($token) {
-
 			$producto = $this->api_model_producto->get_admin_producto($id);
-
-			$post = array(
+			$posts = array(
 				'id' => $producto->id,
 					'name' => $producto->name,
 					'price' => $producto->price,
@@ -210,35 +211,39 @@ class Api_Producto extends CI_Controller {
 					'category_id' => $producto->category_id,
                     'is_featured' => $producto->is_featured,
                     'is_active' => $producto->is_active,
-                    // 'short_desc' => html_entity_decode($short_desc),
-					'img' => base_url('media/uploads/productos/'.$producto->img)
+					'imgUrl' => $producto->imgUrl,
+					'img' => base_url('media/uploads/productos/'.$producto->img),
+					'created_at' => $producto->created_at,
+					'updated_at' => $producto->created_at
 			);
 			
 
 			$this->output
 				->set_status_header(200)
 				->set_content_type('application/json')
-				->set_output(json_encode($post)); 
+				->set_output(json_encode($posts)); 
 		}
 	}
 
 	public function createProducto()
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// <!-- $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) { -->
 
-			$user_id = $this->input->post('user_id');
 			$name = $this->input->post('name');
+			$user_id = $this->input->post('user_id');
+			$category_id = $this->input->post('category_id');
+			$price = $this->input->post('price');
 			$cod_prod = $this->input->post('cod_prod');
 			$description = $this->input->post('description');
 			$video_review = $this->input->post('video_review');
 			$info_short = $this->input->post('info_short');
-			$category_id = $this->input->post('category_id');
 			$is_featured = $this->input->post('is_featured');
 			$is_active = $this->input->post('is_active');
+			$imgUrl = $this->input->post('imgUrl');
 
 			$filename = NULL;
 
@@ -270,8 +275,8 @@ class Api_Producto extends CI_Controller {
 	        	$productoData = array(
 					'name' => $name,
 					'price' => $price,
-					'user_id' => $user_id,
 					'cod_prod' => $cod_prod,
+					'user_id' => $user_id,
 					'category_id' => $category_id,
 					'description' => $description,
 					'video_review' => $video_review,
@@ -279,6 +284,7 @@ class Api_Producto extends CI_Controller {
 					'img' => $filename,
 					'is_featured' => $is_featured,
 					'is_active' => $is_active,
+					'imgUrl' => $imgUrl,
 					'created_at' => date('Y-m-d H:i:s', time())
 				);
 
@@ -293,16 +299,17 @@ class Api_Producto extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
-	public function updateProducto($id)
+	public function updateProducto($id) 
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		
+		// if($token) {
 
 			$producto = $this->api_model_producto->get_admin_producto($id);
 			$filename = $producto->img;
@@ -317,6 +324,7 @@ class Api_Producto extends CI_Controller {
 			$category_id = $this->input->post('category_id');
 			$is_featured = $this->input->post('is_featured');
 			$is_active = $this->input->post('is_active');
+			$imgUrl = $this->input->post('imgUrl');
 
 			$isUploadError = FALSE;
 
@@ -352,15 +360,17 @@ class Api_Producto extends CI_Controller {
 	        	$productoData = array(
 					'name' => $name,
 					'price' => $price,
-					'user_id' => $user_id,
 					'cod_prod' => $cod_prod,
+					'user_id' => $user_id,
 					'category_id' => $category_id,
 					'description' => $description,
 					'video_review' => $video_review,
 					'info_short' => $info_short,
 					'img' => $filename,
 					'is_featured' => $is_featured,
+					'imgUrl' => $imgUrl,
 					'is_active' => $is_active,
+					'updated_at' => date('Y-m-d H:i:s', time())
 				);
 
 				$this->api_model_producto->updateProducto($id, $productoData);
@@ -374,16 +384,16 @@ class Api_Producto extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
-		}
+		// }
 	}
 
 	public function deleteProducto($id)
 	{
-		$headerToken = $this->input->get_request_header('Authorization');
-        $splitToken = explode(" ", $headerToken);
-        $token =  $splitToken[0];
+		// $headerToken = $this->input->get_request_header('Authorization');
+        // $splitToken = explode(" ", $headerToken);
+        // $token =  $splitToken[0];
 
-		if($token) {
+		// if($token) {
 
 			$producto = $this->api_model_producto->get_admin_producto($id);
 
@@ -402,6 +412,37 @@ class Api_Producto extends CI_Controller {
 				->set_status_header(200)
 				->set_content_type('application/json')
 				->set_output(json_encode($response)); 
+		// }
+	}
+
+	public function productobyCategory($category_id)
+	{
+		
+		$productos = $this->api_model_producto->getProductoCategory($category_id);
+
+
+		foreach($productos as $producto){
+				
+			$posts[] = array(
+				'id' => $producto->id,
+					'name' => $producto->name,
+					'price' => $producto->price,
+					'cod_prod' => $producto->cod_prod,
+					'description' => $producto->description,
+					'video_review' => $producto->video_review,
+					'info_short' => $producto->info_short,
+					'category_id' => $producto->category_id,
+                    'is_featured' => $producto->is_featured,
+                    'is_active' => $producto->is_active,
+					'imgUrl' => $producto->imgUrl,
+					'img' => base_url('media/uploads/productos/'.$producto->img),
+					'created_at' => $producto->created_at,
+					'updated_at' => $producto->updated_at,
+			);
 		}
+		
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($posts));
 	}
 }
